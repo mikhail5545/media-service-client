@@ -439,6 +439,86 @@ func (*DeleteResponse) Descriptor() ([]byte, []int) {
 	return file_product_service_video_v1_video_proto_rawDescGZIP(), []int{4}
 }
 
+type ForceDeleteRequest struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	MediaServiceUuid []byte                 `protobuf:"bytes,1,opt,name=media_service_uuid,json=mediaServiceUuid,proto3" json:"media_service_uuid,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *ForceDeleteRequest) Reset() {
+	*x = ForceDeleteRequest{}
+	mi := &file_product_service_video_v1_video_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ForceDeleteRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ForceDeleteRequest) ProtoMessage() {}
+
+func (x *ForceDeleteRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_product_service_video_v1_video_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ForceDeleteRequest.ProtoReflect.Descriptor instead.
+func (*ForceDeleteRequest) Descriptor() ([]byte, []int) {
+	return file_product_service_video_v1_video_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ForceDeleteRequest) GetMediaServiceUuid() []byte {
+	if x != nil {
+		return x.MediaServiceUuid
+	}
+	return nil
+}
+
+type ForceDeleteResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ForceDeleteResponse) Reset() {
+	*x = ForceDeleteResponse{}
+	mi := &file_product_service_video_v1_video_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ForceDeleteResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ForceDeleteResponse) ProtoMessage() {}
+
+func (x *ForceDeleteResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_product_service_video_v1_video_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ForceDeleteResponse.ProtoReflect.Descriptor instead.
+func (*ForceDeleteResponse) Descriptor() ([]byte, []int) {
+	return file_product_service_video_v1_video_proto_rawDescGZIP(), []int{6}
+}
+
 type PingRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -447,7 +527,7 @@ type PingRequest struct {
 
 func (x *PingRequest) Reset() {
 	*x = PingRequest{}
-	mi := &file_product_service_video_v1_video_proto_msgTypes[5]
+	mi := &file_product_service_video_v1_video_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -459,7 +539,7 @@ func (x *PingRequest) String() string {
 func (*PingRequest) ProtoMessage() {}
 
 func (x *PingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_product_service_video_v1_video_proto_msgTypes[5]
+	mi := &file_product_service_video_v1_video_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -472,7 +552,7 @@ func (x *PingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PingRequest.ProtoReflect.Descriptor instead.
 func (*PingRequest) Descriptor() ([]byte, []int) {
-	return file_product_service_video_v1_video_proto_rawDescGZIP(), []int{5}
+	return file_product_service_video_v1_video_proto_rawDescGZIP(), []int{7}
 }
 
 type PingResponse struct {
@@ -484,7 +564,7 @@ type PingResponse struct {
 
 func (x *PingResponse) Reset() {
 	*x = PingResponse{}
-	mi := &file_product_service_video_v1_video_proto_msgTypes[6]
+	mi := &file_product_service_video_v1_video_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -496,7 +576,7 @@ func (x *PingResponse) String() string {
 func (*PingResponse) ProtoMessage() {}
 
 func (x *PingResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_product_service_video_v1_video_proto_msgTypes[6]
+	mi := &file_product_service_video_v1_video_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -509,7 +589,7 @@ func (x *PingResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PingResponse.ProtoReflect.Descriptor instead.
 func (*PingResponse) Descriptor() ([]byte, []int) {
-	return file_product_service_video_v1_video_proto_rawDescGZIP(), []int{6}
+	return file_product_service_video_v1_video_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *PingResponse) GetTimestamp() int64 {
@@ -555,7 +635,10 @@ const file_product_service_video_v1_video_proto_rawDesc = "" +
 	"\x13BrokenVideoResponse\"=\n" +
 	"\rDeleteRequest\x12,\n" +
 	"\x12media_service_uuid\x18\x01 \x01(\fR\x10mediaServiceUuid\"\x10\n" +
-	"\x0eDeleteResponse\"\r\n" +
+	"\x0eDeleteResponse\"B\n" +
+	"\x12ForceDeleteRequest\x12,\n" +
+	"\x12media_service_uuid\x18\x01 \x01(\fR\x10mediaServiceUuid\"\x15\n" +
+	"\x13ForceDeleteResponse\"\r\n" +
 	"\vPingRequest\",\n" +
 	"\fPingResponse\x12\x1c\n" +
 	"\ttimestamp\x18\x01 \x01(\x03R\ttimestamp*]\n" +
@@ -567,11 +650,12 @@ const file_product_service_video_v1_video_proto_rawDesc = "" +
 	"\x19UPLOAD_STATUS_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17UPLOAD_STATUS_PREPARING\x10\x01\x12\x17\n" +
 	"\x13UPLOAD_STATUS_READY\x10\x02\x12\x19\n" +
-	"\x15UPLOAD_STATUS_ERRORED\x10\x032\xae\x02\n" +
+	"\x15UPLOAD_STATUS_ERRORED\x10\x032\x9a\x03\n" +
 	"\fVideoService\x12U\n" +
 	"\x04Ping\x12%.product_service.video.v1.PingRequest\x1a&.product_service.video.v1.PingResponse\x12j\n" +
 	"\vBrokenVideo\x12,.product_service.video.v1.BrokenVideoRequest\x1a-.product_service.video.v1.BrokenVideoResponse\x12[\n" +
-	"\x06Delete\x12'.product_service.video.v1.DeleteRequest\x1a(.product_service.video.v1.DeleteResponseB\xf9\x01\n" +
+	"\x06Delete\x12'.product_service.video.v1.DeleteRequest\x1a(.product_service.video.v1.DeleteResponse\x12j\n" +
+	"\vForceDelete\x12,.product_service.video.v1.ForceDeleteRequest\x1a-.product_service.video.v1.ForceDeleteResponseB\xf9\x01\n" +
 	"\x1ccom.product_service.video.v1B\n" +
 	"VideoProtoP\x01ZOgithub.com/mikhail5545/media-service-client/pb/product_service/video/v1;videov1\xa2\x02\x03PVX\xaa\x02\x17ProductService.Video.V1\xca\x02\x17ProductService\\Video\\V1\xe2\x02#ProductService\\Video\\V1\\GPBMetadata\xea\x02\x19ProductService::Video::V1b\x06proto3"
 
@@ -588,7 +672,7 @@ func file_product_service_video_v1_video_proto_rawDescGZIP() []byte {
 }
 
 var file_product_service_video_v1_video_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_product_service_video_v1_video_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_product_service_video_v1_video_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_product_service_video_v1_video_proto_goTypes = []any{
 	(VideoStatus)(0),              // 0: product_service.video.v1.VideoStatus
 	(UploadStatus)(0),             // 1: product_service.video.v1.UploadStatus
@@ -597,27 +681,31 @@ var file_product_service_video_v1_video_proto_goTypes = []any{
 	(*BrokenVideoResponse)(nil),   // 4: product_service.video.v1.BrokenVideoResponse
 	(*DeleteRequest)(nil),         // 5: product_service.video.v1.DeleteRequest
 	(*DeleteResponse)(nil),        // 6: product_service.video.v1.DeleteResponse
-	(*PingRequest)(nil),           // 7: product_service.video.v1.PingRequest
-	(*PingResponse)(nil),          // 8: product_service.video.v1.PingResponse
-	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
+	(*ForceDeleteRequest)(nil),    // 7: product_service.video.v1.ForceDeleteRequest
+	(*ForceDeleteResponse)(nil),   // 8: product_service.video.v1.ForceDeleteResponse
+	(*PingRequest)(nil),           // 9: product_service.video.v1.PingRequest
+	(*PingResponse)(nil),          // 10: product_service.video.v1.PingResponse
+	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
 }
 var file_product_service_video_v1_video_proto_depIdxs = []int32{
-	9, // 0: product_service.video.v1.Video.created_at:type_name -> google.protobuf.Timestamp
-	9, // 1: product_service.video.v1.Video.updated_at:type_name -> google.protobuf.Timestamp
-	9, // 2: product_service.video.v1.Video.deleted_at:type_name -> google.protobuf.Timestamp
-	0, // 3: product_service.video.v1.Video.status:type_name -> product_service.video.v1.VideoStatus
-	1, // 4: product_service.video.v1.Video.upload_status:type_name -> product_service.video.v1.UploadStatus
-	7, // 5: product_service.video.v1.VideoService.Ping:input_type -> product_service.video.v1.PingRequest
-	3, // 6: product_service.video.v1.VideoService.BrokenVideo:input_type -> product_service.video.v1.BrokenVideoRequest
-	5, // 7: product_service.video.v1.VideoService.Delete:input_type -> product_service.video.v1.DeleteRequest
-	8, // 8: product_service.video.v1.VideoService.Ping:output_type -> product_service.video.v1.PingResponse
-	4, // 9: product_service.video.v1.VideoService.BrokenVideo:output_type -> product_service.video.v1.BrokenVideoResponse
-	6, // 10: product_service.video.v1.VideoService.Delete:output_type -> product_service.video.v1.DeleteResponse
-	8, // [8:11] is the sub-list for method output_type
-	5, // [5:8] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	11, // 0: product_service.video.v1.Video.created_at:type_name -> google.protobuf.Timestamp
+	11, // 1: product_service.video.v1.Video.updated_at:type_name -> google.protobuf.Timestamp
+	11, // 2: product_service.video.v1.Video.deleted_at:type_name -> google.protobuf.Timestamp
+	0,  // 3: product_service.video.v1.Video.status:type_name -> product_service.video.v1.VideoStatus
+	1,  // 4: product_service.video.v1.Video.upload_status:type_name -> product_service.video.v1.UploadStatus
+	9,  // 5: product_service.video.v1.VideoService.Ping:input_type -> product_service.video.v1.PingRequest
+	3,  // 6: product_service.video.v1.VideoService.BrokenVideo:input_type -> product_service.video.v1.BrokenVideoRequest
+	5,  // 7: product_service.video.v1.VideoService.Delete:input_type -> product_service.video.v1.DeleteRequest
+	7,  // 8: product_service.video.v1.VideoService.ForceDelete:input_type -> product_service.video.v1.ForceDeleteRequest
+	10, // 9: product_service.video.v1.VideoService.Ping:output_type -> product_service.video.v1.PingResponse
+	4,  // 10: product_service.video.v1.VideoService.BrokenVideo:output_type -> product_service.video.v1.BrokenVideoResponse
+	6,  // 11: product_service.video.v1.VideoService.Delete:output_type -> product_service.video.v1.DeleteResponse
+	8,  // 12: product_service.video.v1.VideoService.ForceDelete:output_type -> product_service.video.v1.ForceDeleteResponse
+	9,  // [9:13] is the sub-list for method output_type
+	5,  // [5:9] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_product_service_video_v1_video_proto_init() }
@@ -632,7 +720,7 @@ func file_product_service_video_v1_video_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_product_service_video_v1_video_proto_rawDesc), len(file_product_service_video_v1_video_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

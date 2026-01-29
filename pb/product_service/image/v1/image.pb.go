@@ -409,28 +409,108 @@ func (*DeleteResponse) Descriptor() ([]byte, []int) {
 	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{4}
 }
 
-type DeleteBatchRequest struct {
+type ForceDeleteRequest struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	MediaServiceUuid []byte                 `protobuf:"bytes,1,opt,name=media_service_uuid,json=mediaServiceUuid,proto3" json:"media_service_uuid,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *ForceDeleteRequest) Reset() {
+	*x = ForceDeleteRequest{}
+	mi := &file_product_service_image_v1_image_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ForceDeleteRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ForceDeleteRequest) ProtoMessage() {}
+
+func (x *ForceDeleteRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_product_service_image_v1_image_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ForceDeleteRequest.ProtoReflect.Descriptor instead.
+func (*ForceDeleteRequest) Descriptor() ([]byte, []int) {
+	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ForceDeleteRequest) GetMediaServiceUuid() []byte {
+	if x != nil {
+		return x.MediaServiceUuid
+	}
+	return nil
+}
+
+type ForceDeleteResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ForceDeleteResponse) Reset() {
+	*x = ForceDeleteResponse{}
+	mi := &file_product_service_image_v1_image_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ForceDeleteResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ForceDeleteResponse) ProtoMessage() {}
+
+func (x *ForceDeleteResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_product_service_image_v1_image_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ForceDeleteResponse.ProtoReflect.Descriptor instead.
+func (*ForceDeleteResponse) Descriptor() ([]byte, []int) {
+	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{6}
+}
+
+type ForceDeleteBatchRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	MediaServiceUuids [][]byte               `protobuf:"bytes,1,rep,name=media_service_uuids,json=mediaServiceUuids,proto3" json:"media_service_uuids,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
 
-func (x *DeleteBatchRequest) Reset() {
-	*x = DeleteBatchRequest{}
-	mi := &file_product_service_image_v1_image_proto_msgTypes[5]
+func (x *ForceDeleteBatchRequest) Reset() {
+	*x = ForceDeleteBatchRequest{}
+	mi := &file_product_service_image_v1_image_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DeleteBatchRequest) String() string {
+func (x *ForceDeleteBatchRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DeleteBatchRequest) ProtoMessage() {}
+func (*ForceDeleteBatchRequest) ProtoMessage() {}
 
-func (x *DeleteBatchRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_product_service_image_v1_image_proto_msgTypes[5]
+func (x *ForceDeleteBatchRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_product_service_image_v1_image_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -441,39 +521,39 @@ func (x *DeleteBatchRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteBatchRequest.ProtoReflect.Descriptor instead.
-func (*DeleteBatchRequest) Descriptor() ([]byte, []int) {
-	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{5}
+// Deprecated: Use ForceDeleteBatchRequest.ProtoReflect.Descriptor instead.
+func (*ForceDeleteBatchRequest) Descriptor() ([]byte, []int) {
+	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *DeleteBatchRequest) GetMediaServiceUuids() [][]byte {
+func (x *ForceDeleteBatchRequest) GetMediaServiceUuids() [][]byte {
 	if x != nil {
 		return x.MediaServiceUuids
 	}
 	return nil
 }
 
-type DeleteBatchResponse struct {
+type ForceDeleteBatchResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DeleteBatchResponse) Reset() {
-	*x = DeleteBatchResponse{}
-	mi := &file_product_service_image_v1_image_proto_msgTypes[6]
+func (x *ForceDeleteBatchResponse) Reset() {
+	*x = ForceDeleteBatchResponse{}
+	mi := &file_product_service_image_v1_image_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DeleteBatchResponse) String() string {
+func (x *ForceDeleteBatchResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DeleteBatchResponse) ProtoMessage() {}
+func (*ForceDeleteBatchResponse) ProtoMessage() {}
 
-func (x *DeleteBatchResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_product_service_image_v1_image_proto_msgTypes[6]
+func (x *ForceDeleteBatchResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_product_service_image_v1_image_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -484,9 +564,9 @@ func (x *DeleteBatchResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteBatchResponse.ProtoReflect.Descriptor instead.
-func (*DeleteBatchResponse) Descriptor() ([]byte, []int) {
-	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{6}
+// Deprecated: Use ForceDeleteBatchResponse.ProtoReflect.Descriptor instead.
+func (*ForceDeleteBatchResponse) Descriptor() ([]byte, []int) {
+	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{8}
 }
 
 type PingRequest struct {
@@ -497,7 +577,7 @@ type PingRequest struct {
 
 func (x *PingRequest) Reset() {
 	*x = PingRequest{}
-	mi := &file_product_service_image_v1_image_proto_msgTypes[7]
+	mi := &file_product_service_image_v1_image_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -509,7 +589,7 @@ func (x *PingRequest) String() string {
 func (*PingRequest) ProtoMessage() {}
 
 func (x *PingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_product_service_image_v1_image_proto_msgTypes[7]
+	mi := &file_product_service_image_v1_image_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -522,7 +602,7 @@ func (x *PingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PingRequest.ProtoReflect.Descriptor instead.
 func (*PingRequest) Descriptor() ([]byte, []int) {
-	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{7}
+	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{9}
 }
 
 type PingResponse struct {
@@ -534,7 +614,7 @@ type PingResponse struct {
 
 func (x *PingResponse) Reset() {
 	*x = PingResponse{}
-	mi := &file_product_service_image_v1_image_proto_msgTypes[8]
+	mi := &file_product_service_image_v1_image_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -546,7 +626,7 @@ func (x *PingResponse) String() string {
 func (*PingResponse) ProtoMessage() {}
 
 func (x *PingResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_product_service_image_v1_image_proto_msgTypes[8]
+	mi := &file_product_service_image_v1_image_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -559,7 +639,7 @@ func (x *PingResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PingResponse.ProtoReflect.Descriptor instead.
 func (*PingResponse) Descriptor() ([]byte, []int) {
-	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{8}
+	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *PingResponse) GetTimestamp() int64 {
@@ -605,10 +685,13 @@ const file_product_service_image_v1_image_proto_rawDesc = "" +
 	"\x13BrokenImageResponse\"=\n" +
 	"\rDeleteRequest\x12,\n" +
 	"\x12media_service_uuid\x18\x01 \x01(\fR\x10mediaServiceUuid\"\x10\n" +
-	"\x0eDeleteResponse\"D\n" +
-	"\x12DeleteBatchRequest\x12.\n" +
-	"\x13media_service_uuids\x18\x01 \x03(\fR\x11mediaServiceUuids\"\x15\n" +
-	"\x13DeleteBatchResponse\"\r\n" +
+	"\x0eDeleteResponse\"B\n" +
+	"\x12ForceDeleteRequest\x12,\n" +
+	"\x12media_service_uuid\x18\x01 \x01(\fR\x10mediaServiceUuid\"\x15\n" +
+	"\x13ForceDeleteResponse\"I\n" +
+	"\x17ForceDeleteBatchRequest\x12.\n" +
+	"\x13media_service_uuids\x18\x01 \x03(\fR\x11mediaServiceUuids\"\x1a\n" +
+	"\x18ForceDeleteBatchResponse\"\r\n" +
 	"\vPingRequest\",\n" +
 	"\fPingResponse\x12\x1c\n" +
 	"\ttimestamp\x18\x01 \x01(\x03R\ttimestamp*\x90\x01\n" +
@@ -617,12 +700,13 @@ const file_product_service_image_v1_image_proto_rawDesc = "" +
 	"\x13IMAGE_STATUS_ACTIVE\x10\x01\x12\x16\n" +
 	"\x12IMAGE_STATUS_DRAFT\x10\x02\x12\x19\n" +
 	"\x15IMAGE_STATUS_ARCHIVED\x10\x03\x12\x17\n" +
-	"\x13IMAGE_STATUS_BROKEN\x10\x042\x9a\x03\n" +
+	"\x13IMAGE_STATUS_BROKEN\x10\x042\x95\x04\n" +
 	"\fImageService\x12U\n" +
 	"\x04Ping\x12%.product_service.image.v1.PingRequest\x1a&.product_service.image.v1.PingResponse\x12j\n" +
 	"\vBrokenImage\x12,.product_service.image.v1.BrokenImageRequest\x1a-.product_service.image.v1.BrokenImageResponse\x12[\n" +
 	"\x06Delete\x12'.product_service.image.v1.DeleteRequest\x1a(.product_service.image.v1.DeleteResponse\x12j\n" +
-	"\vDeleteBatch\x12,.product_service.image.v1.DeleteBatchRequest\x1a-.product_service.image.v1.DeleteBatchResponseB\xf9\x01\n" +
+	"\vForceDelete\x12,.product_service.image.v1.ForceDeleteRequest\x1a-.product_service.image.v1.ForceDeleteResponse\x12y\n" +
+	"\x10ForceDeleteBatch\x121.product_service.image.v1.ForceDeleteBatchRequest\x1a2.product_service.image.v1.ForceDeleteBatchResponseB\xf9\x01\n" +
 	"\x1ccom.product_service.image.v1B\n" +
 	"ImageProtoP\x01ZOgithub.com/mikhail5545/media-service-client/pb/product_service/image/v1;imagev1\xa2\x02\x03PIX\xaa\x02\x17ProductService.Image.V1\xca\x02\x17ProductService\\Image\\V1\xe2\x02#ProductService\\Image\\V1\\GPBMetadata\xea\x02\x19ProductService::Image::V1b\x06proto3"
 
@@ -639,34 +723,38 @@ func file_product_service_image_v1_image_proto_rawDescGZIP() []byte {
 }
 
 var file_product_service_image_v1_image_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_product_service_image_v1_image_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_product_service_image_v1_image_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_product_service_image_v1_image_proto_goTypes = []any{
-	(ImageStatus)(0),              // 0: product_service.image.v1.ImageStatus
-	(*Image)(nil),                 // 1: product_service.image.v1.Image
-	(*BrokenImageRequest)(nil),    // 2: product_service.image.v1.BrokenImageRequest
-	(*BrokenImageResponse)(nil),   // 3: product_service.image.v1.BrokenImageResponse
-	(*DeleteRequest)(nil),         // 4: product_service.image.v1.DeleteRequest
-	(*DeleteResponse)(nil),        // 5: product_service.image.v1.DeleteResponse
-	(*DeleteBatchRequest)(nil),    // 6: product_service.image.v1.DeleteBatchRequest
-	(*DeleteBatchResponse)(nil),   // 7: product_service.image.v1.DeleteBatchResponse
-	(*PingRequest)(nil),           // 8: product_service.image.v1.PingRequest
-	(*PingResponse)(nil),          // 9: product_service.image.v1.PingResponse
-	(*timestamppb.Timestamp)(nil), // 10: google.protobuf.Timestamp
+	(ImageStatus)(0),                 // 0: product_service.image.v1.ImageStatus
+	(*Image)(nil),                    // 1: product_service.image.v1.Image
+	(*BrokenImageRequest)(nil),       // 2: product_service.image.v1.BrokenImageRequest
+	(*BrokenImageResponse)(nil),      // 3: product_service.image.v1.BrokenImageResponse
+	(*DeleteRequest)(nil),            // 4: product_service.image.v1.DeleteRequest
+	(*DeleteResponse)(nil),           // 5: product_service.image.v1.DeleteResponse
+	(*ForceDeleteRequest)(nil),       // 6: product_service.image.v1.ForceDeleteRequest
+	(*ForceDeleteResponse)(nil),      // 7: product_service.image.v1.ForceDeleteResponse
+	(*ForceDeleteBatchRequest)(nil),  // 8: product_service.image.v1.ForceDeleteBatchRequest
+	(*ForceDeleteBatchResponse)(nil), // 9: product_service.image.v1.ForceDeleteBatchResponse
+	(*PingRequest)(nil),              // 10: product_service.image.v1.PingRequest
+	(*PingResponse)(nil),             // 11: product_service.image.v1.PingResponse
+	(*timestamppb.Timestamp)(nil),    // 12: google.protobuf.Timestamp
 }
 var file_product_service_image_v1_image_proto_depIdxs = []int32{
-	10, // 0: product_service.image.v1.Image.created_at:type_name -> google.protobuf.Timestamp
-	10, // 1: product_service.image.v1.Image.updated_at:type_name -> google.protobuf.Timestamp
+	12, // 0: product_service.image.v1.Image.created_at:type_name -> google.protobuf.Timestamp
+	12, // 1: product_service.image.v1.Image.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 2: product_service.image.v1.Image.status:type_name -> product_service.image.v1.ImageStatus
-	8,  // 3: product_service.image.v1.ImageService.Ping:input_type -> product_service.image.v1.PingRequest
+	10, // 3: product_service.image.v1.ImageService.Ping:input_type -> product_service.image.v1.PingRequest
 	2,  // 4: product_service.image.v1.ImageService.BrokenImage:input_type -> product_service.image.v1.BrokenImageRequest
 	4,  // 5: product_service.image.v1.ImageService.Delete:input_type -> product_service.image.v1.DeleteRequest
-	6,  // 6: product_service.image.v1.ImageService.DeleteBatch:input_type -> product_service.image.v1.DeleteBatchRequest
-	9,  // 7: product_service.image.v1.ImageService.Ping:output_type -> product_service.image.v1.PingResponse
-	3,  // 8: product_service.image.v1.ImageService.BrokenImage:output_type -> product_service.image.v1.BrokenImageResponse
-	5,  // 9: product_service.image.v1.ImageService.Delete:output_type -> product_service.image.v1.DeleteResponse
-	7,  // 10: product_service.image.v1.ImageService.DeleteBatch:output_type -> product_service.image.v1.DeleteBatchResponse
-	7,  // [7:11] is the sub-list for method output_type
-	3,  // [3:7] is the sub-list for method input_type
+	6,  // 6: product_service.image.v1.ImageService.ForceDelete:input_type -> product_service.image.v1.ForceDeleteRequest
+	8,  // 7: product_service.image.v1.ImageService.ForceDeleteBatch:input_type -> product_service.image.v1.ForceDeleteBatchRequest
+	11, // 8: product_service.image.v1.ImageService.Ping:output_type -> product_service.image.v1.PingResponse
+	3,  // 9: product_service.image.v1.ImageService.BrokenImage:output_type -> product_service.image.v1.BrokenImageResponse
+	5,  // 10: product_service.image.v1.ImageService.Delete:output_type -> product_service.image.v1.DeleteResponse
+	7,  // 11: product_service.image.v1.ImageService.ForceDelete:output_type -> product_service.image.v1.ForceDeleteResponse
+	9,  // 12: product_service.image.v1.ImageService.ForceDeleteBatch:output_type -> product_service.image.v1.ForceDeleteBatchResponse
+	8,  // [8:13] is the sub-list for method output_type
+	3,  // [3:8] is the sub-list for method input_type
 	3,  // [3:3] is the sub-list for extension type_name
 	3,  // [3:3] is the sub-list for extension extendee
 	0,  // [0:3] is the sub-list for field type_name
@@ -684,7 +772,7 @@ func file_product_service_image_v1_image_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_product_service_image_v1_image_proto_rawDesc), len(file_product_service_image_v1_image_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   9,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

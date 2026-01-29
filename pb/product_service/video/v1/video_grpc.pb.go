@@ -22,6 +22,7 @@ const (
 	VideoService_Ping_FullMethodName        = "/product_service.video.v1.VideoService/Ping"
 	VideoService_BrokenVideo_FullMethodName = "/product_service.video.v1.VideoService/BrokenVideo"
 	VideoService_Delete_FullMethodName      = "/product_service.video.v1.VideoService/Delete"
+	VideoService_ForceDelete_FullMethodName = "/product_service.video.v1.VideoService/ForceDelete"
 )
 
 // VideoServiceClient is the client API for VideoService service.
@@ -31,6 +32,8 @@ type VideoServiceClient interface {
 	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
 	BrokenVideo(ctx context.Context, in *BrokenVideoRequest, opts ...grpc.CallOption) (*BrokenVideoResponse, error)
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	// ForceDelete permanently deletes a video and all its associated data. It should be used with caution in scenarios where data recovery is not possible through standard deletion methods.
+	ForceDelete(ctx context.Context, in *ForceDeleteRequest, opts ...grpc.CallOption) (*ForceDeleteResponse, error)
 }
 
 type videoServiceClient struct {
@@ -71,6 +74,16 @@ func (c *videoServiceClient) Delete(ctx context.Context, in *DeleteRequest, opts
 	return out, nil
 }
 
+func (c *videoServiceClient) ForceDelete(ctx context.Context, in *ForceDeleteRequest, opts ...grpc.CallOption) (*ForceDeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ForceDeleteResponse)
+	err := c.cc.Invoke(ctx, VideoService_ForceDelete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // VideoServiceServer is the server API for VideoService service.
 // All implementations must embed UnimplementedVideoServiceServer
 // for forward compatibility.
@@ -78,6 +91,8 @@ type VideoServiceServer interface {
 	Ping(context.Context, *PingRequest) (*PingResponse, error)
 	BrokenVideo(context.Context, *BrokenVideoRequest) (*BrokenVideoResponse, error)
 	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
+	// ForceDelete permanently deletes a video and all its associated data. It should be used with caution in scenarios where data recovery is not possible through standard deletion methods.
+	ForceDelete(context.Context, *ForceDeleteRequest) (*ForceDeleteResponse, error)
 	mustEmbedUnimplementedVideoServiceServer()
 }
 
@@ -96,6 +111,9 @@ func (UnimplementedVideoServiceServer) BrokenVideo(context.Context, *BrokenVideo
 }
 func (UnimplementedVideoServiceServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedVideoServiceServer) ForceDelete(context.Context, *ForceDeleteRequest) (*ForceDeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ForceDelete not implemented")
 }
 func (UnimplementedVideoServiceServer) mustEmbedUnimplementedVideoServiceServer() {}
 func (UnimplementedVideoServiceServer) testEmbeddedByValue()                      {}
@@ -172,6 +190,24 @@ func _VideoService_Delete_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _VideoService_ForceDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ForceDeleteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VideoServiceServer).ForceDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VideoService_ForceDelete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VideoServiceServer).ForceDelete(ctx, req.(*ForceDeleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // VideoService_ServiceDesc is the grpc.ServiceDesc for VideoService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +226,10 @@ var VideoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Delete",
 			Handler:    _VideoService_Delete_Handler,
+		},
+		{
+			MethodName: "ForceDelete",
+			Handler:    _VideoService_ForceDelete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

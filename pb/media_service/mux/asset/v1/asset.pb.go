@@ -257,18 +257,18 @@ type Asset struct {
 	UpdatedAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	DeletedAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`
 	// Unique identifier for the direct upload (External MUX API reference)
-	MuxUploadId string `protobuf:"bytes,5,opt,name=mux_upload_id,json=muxUploadId,proto3" json:"mux_upload_id,omitempty"`
+	MuxUploadId *string `protobuf:"bytes,5,opt,name=mux_upload_id,json=muxUploadId,proto3,oneof" json:"mux_upload_id,omitempty"`
 	// Unique identifier for the MUX asset (External MUX API reference)
-	MuxAssetId string `protobuf:"bytes,6,opt,name=mux_asset_id,json=muxAssetId,proto3" json:"mux_asset_id,omitempty"`
+	MuxAssetId *string `protobuf:"bytes,6,opt,name=mux_asset_id,json=muxAssetId,proto3,oneof" json:"mux_asset_id,omitempty"`
 	// The detailed state of the asset ingest progress. This field is useful for relaying more granular
 	// processing information to end users when a non-standard input is encountered.
 	State AssetState `protobuf:"varint,7,opt,name=state,proto3,enum=media_service.mux.asset.v1.AssetState" json:"state,omitempty"`
 	// The status of the primary MUX asset track.
 	UploadStatus AssetUploadStatus `protobuf:"varint,8,opt,name=upload_status,json=uploadStatus,proto3,enum=media_service.mux.asset.v1.AssetUploadStatus" json:"upload_status,omitempty"`
 	// The duration of the asset in seconds.
-	Duration float32 `protobuf:"fixed32,9,opt,name=duration,proto3" json:"duration,omitempty"`
+	Duration *float32 `protobuf:"fixed32,9,opt,name=duration,proto3,oneof" json:"duration,omitempty"`
 	// The aspect ratio of the asset, represented as a string (e.g., "16:9").
-	AspectRatio    string                 `protobuf:"bytes,10,opt,name=aspect_ratio,json=aspectRatio,proto3" json:"aspect_ratio,omitempty"`
+	AspectRatio    *string                `protobuf:"bytes,10,opt,name=aspect_ratio,json=aspectRatio,proto3,oneof" json:"aspect_ratio,omitempty"`
 	AssetCreatedAt *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=asset_created_at,json=assetCreatedAt,proto3,oneof" json:"asset_created_at,omitempty"`
 	// The resolution tier of the asset (e.g., "720p", "1080p", "1440p").
 	ResolutionTier *string `protobuf:"bytes,12,opt,name=resolution_tier,json=resolutionTier,proto3,oneof" json:"resolution_tier,omitempty"`
@@ -291,6 +291,7 @@ type Asset struct {
 	// This is the MUX webhook event id that caused the asset to be archived.
 	ArchiveEventId *string             `protobuf:"bytes,26,opt,name=archive_event_id,json=archiveEventId,proto3,oneof" json:"archive_event_id,omitempty"`
 	MuxError       *v1.MuxWebhookError `protobuf:"bytes,27,opt,name=mux_error,json=muxError,proto3,oneof" json:"mux_error,omitempty"`
+	Status         AssetStatus         `protobuf:"varint,28,opt,name=status,proto3,enum=media_service.mux.asset.v1.AssetStatus" json:"status,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -354,15 +355,15 @@ func (x *Asset) GetDeletedAt() *timestamppb.Timestamp {
 }
 
 func (x *Asset) GetMuxUploadId() string {
-	if x != nil {
-		return x.MuxUploadId
+	if x != nil && x.MuxUploadId != nil {
+		return *x.MuxUploadId
 	}
 	return ""
 }
 
 func (x *Asset) GetMuxAssetId() string {
-	if x != nil {
-		return x.MuxAssetId
+	if x != nil && x.MuxAssetId != nil {
+		return *x.MuxAssetId
 	}
 	return ""
 }
@@ -382,15 +383,15 @@ func (x *Asset) GetUploadStatus() AssetUploadStatus {
 }
 
 func (x *Asset) GetDuration() float32 {
-	if x != nil {
-		return x.Duration
+	if x != nil && x.Duration != nil {
+		return *x.Duration
 	}
 	return 0
 }
 
 func (x *Asset) GetAspectRatio() string {
-	if x != nil {
-		return x.AspectRatio
+	if x != nil && x.AspectRatio != nil {
+		return *x.AspectRatio
 	}
 	return ""
 }
@@ -512,6 +513,13 @@ func (x *Asset) GetMuxError() *v1.MuxWebhookError {
 		return x.MuxError
 	}
 	return nil
+}
+
+func (x *Asset) GetStatus() AssetStatus {
+	if x != nil {
+		return x.Status
+	}
+	return AssetStatus_ASSET_STATUS_UNSPECIFIED
 }
 
 // Details is a DTO that combines the core Asset model with its metadata.
@@ -2332,7 +2340,7 @@ var File_media_service_mux_asset_v1_asset_proto protoreflect.FileDescriptor
 
 const file_media_service_mux_asset_v1_asset_proto_rawDesc = "" +
 	"\n" +
-	"&media_service/mux/asset/v1/asset.proto\x12\x1amedia_service.mux.asset.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a*media_service/mux/webhook/v1/webhook.proto\x1a2media_service/mux/metadata/v1/asset_metadata.proto\"\xbb\r\n" +
+	"&media_service/mux/asset/v1/asset.proto\x12\x1amedia_service.mux.asset.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a*media_service/mux/webhook/v1/webhook.proto\x1a2media_service/mux/metadata/v1/asset_metadata.proto\"\xd1\x0e\n" +
 	"\x05Asset\x12\x12\n" +
 	"\x04uuid\x18\x01 \x01(\fR\x04uuid\x129\n" +
 	"\n" +
@@ -2340,38 +2348,43 @@ const file_media_service_mux_asset_v1_asset_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12>\n" +
 	"\n" +
-	"deleted_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\tdeletedAt\x88\x01\x01\x12\"\n" +
-	"\rmux_upload_id\x18\x05 \x01(\tR\vmuxUploadId\x12 \n" +
-	"\fmux_asset_id\x18\x06 \x01(\tR\n" +
-	"muxAssetId\x12<\n" +
+	"deleted_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\tdeletedAt\x88\x01\x01\x12'\n" +
+	"\rmux_upload_id\x18\x05 \x01(\tH\x01R\vmuxUploadId\x88\x01\x01\x12%\n" +
+	"\fmux_asset_id\x18\x06 \x01(\tH\x02R\n" +
+	"muxAssetId\x88\x01\x01\x12<\n" +
 	"\x05state\x18\a \x01(\x0e2&.media_service.mux.asset.v1.AssetStateR\x05state\x12R\n" +
-	"\rupload_status\x18\b \x01(\x0e2-.media_service.mux.asset.v1.AssetUploadStatusR\fuploadStatus\x12\x1a\n" +
-	"\bduration\x18\t \x01(\x02R\bduration\x12!\n" +
+	"\rupload_status\x18\b \x01(\x0e2-.media_service.mux.asset.v1.AssetUploadStatusR\fuploadStatus\x12\x1f\n" +
+	"\bduration\x18\t \x01(\x02H\x03R\bduration\x88\x01\x01\x12&\n" +
 	"\faspect_ratio\x18\n" +
-	" \x01(\tR\vaspectRatio\x12I\n" +
-	"\x10asset_created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampH\x01R\x0eassetCreatedAt\x88\x01\x01\x12,\n" +
-	"\x0fresolution_tier\x18\f \x01(\tH\x02R\x0eresolutionTier\x88\x01\x01\x12L\n" +
+	" \x01(\tH\x04R\vaspectRatio\x88\x01\x01\x12I\n" +
+	"\x10asset_created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampH\x05R\x0eassetCreatedAt\x88\x01\x01\x12,\n" +
+	"\x0fresolution_tier\x18\f \x01(\tH\x06R\x0eresolutionTier\x88\x01\x01\x12L\n" +
 	"\vingest_type\x18\r \x01(\x0e2+.media_service.mux.asset.v1.AssetIngestTypeR\n" +
 	"ingestType\x12@\n" +
-	"\x1aprimary_signed_playback_id\x18\x0e \x01(\tH\x03R\x17primarySignedPlaybackId\x88\x01\x01\x12@\n" +
-	"\x1aprimary_public_playback_id\x18\x0f \x01(\tH\x04R\x17primaryPublicPlaybackId\x88\x01\x01\x12\"\n" +
+	"\x1aprimary_signed_playback_id\x18\x0e \x01(\tH\aR\x17primarySignedPlaybackId\x88\x01\x01\x12@\n" +
+	"\x1aprimary_public_playback_id\x18\x0f \x01(\tH\bR\x17primaryPublicPlaybackId\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"created_by\x18\x10 \x01(\fH\x05R\tcreatedBy\x88\x01\x01\x12$\n" +
-	"\varchived_by\x18\x11 \x01(\fH\x06R\n" +
+	"created_by\x18\x10 \x01(\fH\tR\tcreatedBy\x88\x01\x01\x12$\n" +
+	"\varchived_by\x18\x11 \x01(\fH\n" +
+	"R\n" +
 	"archivedBy\x88\x01\x01\x12$\n" +
-	"\vrestored_by\x18\x12 \x01(\fH\aR\n" +
+	"\vrestored_by\x18\x12 \x01(\fH\vR\n" +
 	"restoredBy\x88\x01\x01\x122\n" +
-	"\x13marked_as_broken_by\x18\x13 \x01(\fH\bR\x10markedAsBrokenBy\x88\x01\x01\x12+\n" +
-	"\x0fcreated_by_name\x18\x14 \x01(\tH\tR\rcreatedByName\x88\x01\x01\x12-\n" +
-	"\x10archived_by_name\x18\x15 \x01(\tH\n" +
-	"R\x0earchivedByName\x88\x01\x01\x12-\n" +
-	"\x10restored_by_name\x18\x16 \x01(\tH\vR\x0erestoredByName\x88\x01\x01\x12;\n" +
-	"\x18marked_as_broken_by_name\x18\x17 \x01(\tH\fR\x14markedAsBrokenByName\x88\x01\x01\x12\x17\n" +
-	"\x04note\x18\x18 \x01(\tH\rR\x04note\x88\x01\x01\x12*\n" +
-	"\x0earchive_reason\x18\x19 \x01(\tH\x0eR\rarchiveReason\x88\x01\x01\x12-\n" +
-	"\x10archive_event_id\x18\x1a \x01(\tH\x0fR\x0earchiveEventId\x88\x01\x01\x12O\n" +
-	"\tmux_error\x18\x1b \x01(\v2-.media_service.mux.webhook.v1.MuxWebhookErrorH\x10R\bmuxError\x88\x01\x01B\r\n" +
-	"\v_deleted_atB\x13\n" +
+	"\x13marked_as_broken_by\x18\x13 \x01(\fH\fR\x10markedAsBrokenBy\x88\x01\x01\x12+\n" +
+	"\x0fcreated_by_name\x18\x14 \x01(\tH\rR\rcreatedByName\x88\x01\x01\x12-\n" +
+	"\x10archived_by_name\x18\x15 \x01(\tH\x0eR\x0earchivedByName\x88\x01\x01\x12-\n" +
+	"\x10restored_by_name\x18\x16 \x01(\tH\x0fR\x0erestoredByName\x88\x01\x01\x12;\n" +
+	"\x18marked_as_broken_by_name\x18\x17 \x01(\tH\x10R\x14markedAsBrokenByName\x88\x01\x01\x12\x17\n" +
+	"\x04note\x18\x18 \x01(\tH\x11R\x04note\x88\x01\x01\x12*\n" +
+	"\x0earchive_reason\x18\x19 \x01(\tH\x12R\rarchiveReason\x88\x01\x01\x12-\n" +
+	"\x10archive_event_id\x18\x1a \x01(\tH\x13R\x0earchiveEventId\x88\x01\x01\x12O\n" +
+	"\tmux_error\x18\x1b \x01(\v2-.media_service.mux.webhook.v1.MuxWebhookErrorH\x14R\bmuxError\x88\x01\x01\x12?\n" +
+	"\x06status\x18\x1c \x01(\x0e2'.media_service.mux.asset.v1.AssetStatusR\x06statusB\r\n" +
+	"\v_deleted_atB\x10\n" +
+	"\x0e_mux_upload_idB\x0f\n" +
+	"\r_mux_asset_idB\v\n" +
+	"\t_durationB\x0f\n" +
+	"\r_aspect_ratioB\x13\n" +
 	"\x11_asset_created_atB\x12\n" +
 	"\x10_resolution_tierB\x1d\n" +
 	"\x1b_primary_signed_playback_idB\x1d\n" +
@@ -2658,58 +2671,59 @@ var file_media_service_mux_asset_v1_asset_proto_depIdxs = []int32{
 	36, // 5: media_service.mux.asset.v1.Asset.asset_created_at:type_name -> google.protobuf.Timestamp
 	3,  // 6: media_service.mux.asset.v1.Asset.ingest_type:type_name -> media_service.mux.asset.v1.AssetIngestType
 	37, // 7: media_service.mux.asset.v1.Asset.mux_error:type_name -> media_service.mux.webhook.v1.MuxWebhookError
-	4,  // 8: media_service.mux.asset.v1.Details.asset:type_name -> media_service.mux.asset.v1.Asset
-	38, // 9: media_service.mux.asset.v1.Details.asset_metadata:type_name -> media_service.mux.metadata.v1.AssetMetadata
-	1,  // 10: media_service.mux.asset.v1.GetRequest.upload_status:type_name -> media_service.mux.asset.v1.AssetUploadStatus
-	5,  // 11: media_service.mux.asset.v1.GetResponse.details:type_name -> media_service.mux.asset.v1.Details
-	1,  // 12: media_service.mux.asset.v1.GetWithArchivedRequest.upload_status:type_name -> media_service.mux.asset.v1.AssetUploadStatus
-	5,  // 13: media_service.mux.asset.v1.GetWithArchivedResponse.details:type_name -> media_service.mux.asset.v1.Details
-	1,  // 14: media_service.mux.asset.v1.GetWithBrokenRequest.upload_status:type_name -> media_service.mux.asset.v1.AssetUploadStatus
-	5,  // 15: media_service.mux.asset.v1.GetWithBrokenResponse.details:type_name -> media_service.mux.asset.v1.Details
-	3,  // 16: media_service.mux.asset.v1.ListRequest.ingest_types:type_name -> media_service.mux.asset.v1.AssetIngestType
-	1,  // 17: media_service.mux.asset.v1.ListRequest.upload_statuses:type_name -> media_service.mux.asset.v1.AssetUploadStatus
-	5,  // 18: media_service.mux.asset.v1.ListResponse.details:type_name -> media_service.mux.asset.v1.Details
-	3,  // 19: media_service.mux.asset.v1.ListArchivedRequest.ingest_types:type_name -> media_service.mux.asset.v1.AssetIngestType
-	1,  // 20: media_service.mux.asset.v1.ListArchivedRequest.upload_statuses:type_name -> media_service.mux.asset.v1.AssetUploadStatus
-	5,  // 21: media_service.mux.asset.v1.ListArchivedResponse.details:type_name -> media_service.mux.asset.v1.Details
-	3,  // 22: media_service.mux.asset.v1.ListBrokenRequest.ingest_types:type_name -> media_service.mux.asset.v1.AssetIngestType
-	1,  // 23: media_service.mux.asset.v1.ListBrokenRequest.upload_statuses:type_name -> media_service.mux.asset.v1.AssetUploadStatus
-	5,  // 24: media_service.mux.asset.v1.ListBrokenResponse.details:type_name -> media_service.mux.asset.v1.Details
-	32, // 25: media_service.mux.asset.v1.AssetService.Ping:input_type -> media_service.mux.asset.v1.PingRequest
-	6,  // 26: media_service.mux.asset.v1.AssetService.Get:input_type -> media_service.mux.asset.v1.GetRequest
-	8,  // 27: media_service.mux.asset.v1.AssetService.GetWithArchived:input_type -> media_service.mux.asset.v1.GetWithArchivedRequest
-	10, // 28: media_service.mux.asset.v1.AssetService.GetWithBroken:input_type -> media_service.mux.asset.v1.GetWithBrokenRequest
-	12, // 29: media_service.mux.asset.v1.AssetService.List:input_type -> media_service.mux.asset.v1.ListRequest
-	14, // 30: media_service.mux.asset.v1.AssetService.ListArchived:input_type -> media_service.mux.asset.v1.ListArchivedRequest
-	16, // 31: media_service.mux.asset.v1.AssetService.ListBroken:input_type -> media_service.mux.asset.v1.ListBrokenRequest
-	18, // 32: media_service.mux.asset.v1.AssetService.CreateUploadURL:input_type -> media_service.mux.asset.v1.CreateUploadURLRequest
-	20, // 33: media_service.mux.asset.v1.AssetService.Archive:input_type -> media_service.mux.asset.v1.ArchiveRequest
-	22, // 34: media_service.mux.asset.v1.AssetService.MarkAsBroken:input_type -> media_service.mux.asset.v1.MarkAsBrokenRequest
-	30, // 35: media_service.mux.asset.v1.AssetService.Restore:input_type -> media_service.mux.asset.v1.RestoreRequest
-	24, // 36: media_service.mux.asset.v1.AssetService.Delete:input_type -> media_service.mux.asset.v1.DeleteRequest
-	26, // 37: media_service.mux.asset.v1.AssetService.AddOwner:input_type -> media_service.mux.asset.v1.AddOwnerRequest
-	28, // 38: media_service.mux.asset.v1.AssetService.RemoveOwner:input_type -> media_service.mux.asset.v1.RemoveOwnerRequest
-	34, // 39: media_service.mux.asset.v1.AssetService.GeneratePlaybackToken:input_type -> media_service.mux.asset.v1.GeneratePlaybackTokenRequest
-	33, // 40: media_service.mux.asset.v1.AssetService.Ping:output_type -> media_service.mux.asset.v1.PingResponse
-	7,  // 41: media_service.mux.asset.v1.AssetService.Get:output_type -> media_service.mux.asset.v1.GetResponse
-	9,  // 42: media_service.mux.asset.v1.AssetService.GetWithArchived:output_type -> media_service.mux.asset.v1.GetWithArchivedResponse
-	11, // 43: media_service.mux.asset.v1.AssetService.GetWithBroken:output_type -> media_service.mux.asset.v1.GetWithBrokenResponse
-	13, // 44: media_service.mux.asset.v1.AssetService.List:output_type -> media_service.mux.asset.v1.ListResponse
-	15, // 45: media_service.mux.asset.v1.AssetService.ListArchived:output_type -> media_service.mux.asset.v1.ListArchivedResponse
-	17, // 46: media_service.mux.asset.v1.AssetService.ListBroken:output_type -> media_service.mux.asset.v1.ListBrokenResponse
-	19, // 47: media_service.mux.asset.v1.AssetService.CreateUploadURL:output_type -> media_service.mux.asset.v1.CreateUploadURLResponse
-	21, // 48: media_service.mux.asset.v1.AssetService.Archive:output_type -> media_service.mux.asset.v1.ArchiveResponse
-	23, // 49: media_service.mux.asset.v1.AssetService.MarkAsBroken:output_type -> media_service.mux.asset.v1.MarkAsBrokenResponse
-	31, // 50: media_service.mux.asset.v1.AssetService.Restore:output_type -> media_service.mux.asset.v1.RestoreResponse
-	25, // 51: media_service.mux.asset.v1.AssetService.Delete:output_type -> media_service.mux.asset.v1.DeleteResponse
-	27, // 52: media_service.mux.asset.v1.AssetService.AddOwner:output_type -> media_service.mux.asset.v1.AddOwnerResponse
-	29, // 53: media_service.mux.asset.v1.AssetService.RemoveOwner:output_type -> media_service.mux.asset.v1.RemoveOwnerResponse
-	35, // 54: media_service.mux.asset.v1.AssetService.GeneratePlaybackToken:output_type -> media_service.mux.asset.v1.GeneratePlaybackTokenResponse
-	40, // [40:55] is the sub-list for method output_type
-	25, // [25:40] is the sub-list for method input_type
-	25, // [25:25] is the sub-list for extension type_name
-	25, // [25:25] is the sub-list for extension extendee
-	0,  // [0:25] is the sub-list for field type_name
+	0,  // 8: media_service.mux.asset.v1.Asset.status:type_name -> media_service.mux.asset.v1.AssetStatus
+	4,  // 9: media_service.mux.asset.v1.Details.asset:type_name -> media_service.mux.asset.v1.Asset
+	38, // 10: media_service.mux.asset.v1.Details.asset_metadata:type_name -> media_service.mux.metadata.v1.AssetMetadata
+	1,  // 11: media_service.mux.asset.v1.GetRequest.upload_status:type_name -> media_service.mux.asset.v1.AssetUploadStatus
+	5,  // 12: media_service.mux.asset.v1.GetResponse.details:type_name -> media_service.mux.asset.v1.Details
+	1,  // 13: media_service.mux.asset.v1.GetWithArchivedRequest.upload_status:type_name -> media_service.mux.asset.v1.AssetUploadStatus
+	5,  // 14: media_service.mux.asset.v1.GetWithArchivedResponse.details:type_name -> media_service.mux.asset.v1.Details
+	1,  // 15: media_service.mux.asset.v1.GetWithBrokenRequest.upload_status:type_name -> media_service.mux.asset.v1.AssetUploadStatus
+	5,  // 16: media_service.mux.asset.v1.GetWithBrokenResponse.details:type_name -> media_service.mux.asset.v1.Details
+	3,  // 17: media_service.mux.asset.v1.ListRequest.ingest_types:type_name -> media_service.mux.asset.v1.AssetIngestType
+	1,  // 18: media_service.mux.asset.v1.ListRequest.upload_statuses:type_name -> media_service.mux.asset.v1.AssetUploadStatus
+	5,  // 19: media_service.mux.asset.v1.ListResponse.details:type_name -> media_service.mux.asset.v1.Details
+	3,  // 20: media_service.mux.asset.v1.ListArchivedRequest.ingest_types:type_name -> media_service.mux.asset.v1.AssetIngestType
+	1,  // 21: media_service.mux.asset.v1.ListArchivedRequest.upload_statuses:type_name -> media_service.mux.asset.v1.AssetUploadStatus
+	5,  // 22: media_service.mux.asset.v1.ListArchivedResponse.details:type_name -> media_service.mux.asset.v1.Details
+	3,  // 23: media_service.mux.asset.v1.ListBrokenRequest.ingest_types:type_name -> media_service.mux.asset.v1.AssetIngestType
+	1,  // 24: media_service.mux.asset.v1.ListBrokenRequest.upload_statuses:type_name -> media_service.mux.asset.v1.AssetUploadStatus
+	5,  // 25: media_service.mux.asset.v1.ListBrokenResponse.details:type_name -> media_service.mux.asset.v1.Details
+	32, // 26: media_service.mux.asset.v1.AssetService.Ping:input_type -> media_service.mux.asset.v1.PingRequest
+	6,  // 27: media_service.mux.asset.v1.AssetService.Get:input_type -> media_service.mux.asset.v1.GetRequest
+	8,  // 28: media_service.mux.asset.v1.AssetService.GetWithArchived:input_type -> media_service.mux.asset.v1.GetWithArchivedRequest
+	10, // 29: media_service.mux.asset.v1.AssetService.GetWithBroken:input_type -> media_service.mux.asset.v1.GetWithBrokenRequest
+	12, // 30: media_service.mux.asset.v1.AssetService.List:input_type -> media_service.mux.asset.v1.ListRequest
+	14, // 31: media_service.mux.asset.v1.AssetService.ListArchived:input_type -> media_service.mux.asset.v1.ListArchivedRequest
+	16, // 32: media_service.mux.asset.v1.AssetService.ListBroken:input_type -> media_service.mux.asset.v1.ListBrokenRequest
+	18, // 33: media_service.mux.asset.v1.AssetService.CreateUploadURL:input_type -> media_service.mux.asset.v1.CreateUploadURLRequest
+	20, // 34: media_service.mux.asset.v1.AssetService.Archive:input_type -> media_service.mux.asset.v1.ArchiveRequest
+	22, // 35: media_service.mux.asset.v1.AssetService.MarkAsBroken:input_type -> media_service.mux.asset.v1.MarkAsBrokenRequest
+	30, // 36: media_service.mux.asset.v1.AssetService.Restore:input_type -> media_service.mux.asset.v1.RestoreRequest
+	24, // 37: media_service.mux.asset.v1.AssetService.Delete:input_type -> media_service.mux.asset.v1.DeleteRequest
+	26, // 38: media_service.mux.asset.v1.AssetService.AddOwner:input_type -> media_service.mux.asset.v1.AddOwnerRequest
+	28, // 39: media_service.mux.asset.v1.AssetService.RemoveOwner:input_type -> media_service.mux.asset.v1.RemoveOwnerRequest
+	34, // 40: media_service.mux.asset.v1.AssetService.GeneratePlaybackToken:input_type -> media_service.mux.asset.v1.GeneratePlaybackTokenRequest
+	33, // 41: media_service.mux.asset.v1.AssetService.Ping:output_type -> media_service.mux.asset.v1.PingResponse
+	7,  // 42: media_service.mux.asset.v1.AssetService.Get:output_type -> media_service.mux.asset.v1.GetResponse
+	9,  // 43: media_service.mux.asset.v1.AssetService.GetWithArchived:output_type -> media_service.mux.asset.v1.GetWithArchivedResponse
+	11, // 44: media_service.mux.asset.v1.AssetService.GetWithBroken:output_type -> media_service.mux.asset.v1.GetWithBrokenResponse
+	13, // 45: media_service.mux.asset.v1.AssetService.List:output_type -> media_service.mux.asset.v1.ListResponse
+	15, // 46: media_service.mux.asset.v1.AssetService.ListArchived:output_type -> media_service.mux.asset.v1.ListArchivedResponse
+	17, // 47: media_service.mux.asset.v1.AssetService.ListBroken:output_type -> media_service.mux.asset.v1.ListBrokenResponse
+	19, // 48: media_service.mux.asset.v1.AssetService.CreateUploadURL:output_type -> media_service.mux.asset.v1.CreateUploadURLResponse
+	21, // 49: media_service.mux.asset.v1.AssetService.Archive:output_type -> media_service.mux.asset.v1.ArchiveResponse
+	23, // 50: media_service.mux.asset.v1.AssetService.MarkAsBroken:output_type -> media_service.mux.asset.v1.MarkAsBrokenResponse
+	31, // 51: media_service.mux.asset.v1.AssetService.Restore:output_type -> media_service.mux.asset.v1.RestoreResponse
+	25, // 52: media_service.mux.asset.v1.AssetService.Delete:output_type -> media_service.mux.asset.v1.DeleteResponse
+	27, // 53: media_service.mux.asset.v1.AssetService.AddOwner:output_type -> media_service.mux.asset.v1.AddOwnerResponse
+	29, // 54: media_service.mux.asset.v1.AssetService.RemoveOwner:output_type -> media_service.mux.asset.v1.RemoveOwnerResponse
+	35, // 55: media_service.mux.asset.v1.AssetService.GeneratePlaybackToken:output_type -> media_service.mux.asset.v1.GeneratePlaybackTokenResponse
+	41, // [41:56] is the sub-list for method output_type
+	26, // [26:41] is the sub-list for method input_type
+	26, // [26:26] is the sub-list for extension type_name
+	26, // [26:26] is the sub-list for extension extendee
+	0,  // [0:26] is the sub-list for field type_name
 }
 
 func init() { file_media_service_mux_asset_v1_asset_proto_init() }

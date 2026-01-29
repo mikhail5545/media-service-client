@@ -26,10 +26,11 @@ const (
 type AssetStatus int32
 
 const (
-	AssetStatus_ASSET_STATUS_UNSPECIFIED AssetStatus = 0
-	AssetStatus_ASSET_STATUS_ACTIVE      AssetStatus = 1
-	AssetStatus_ASSET_STATUS_ARCHIVED    AssetStatus = 2
-	AssetStatus_ASSET_STATUS_BROKEN      AssetStatus = 3
+	AssetStatus_ASSET_STATUS_UNSPECIFIED          AssetStatus = 0
+	AssetStatus_ASSET_STATUS_ACTIVE               AssetStatus = 1
+	AssetStatus_ASSET_STATUS_ARCHIVED             AssetStatus = 2
+	AssetStatus_ASSET_STATUS_BROKEN               AssetStatus = 3
+	AssetStatus_ASSET_STATUS_UPLOAD_URL_GENERATED AssetStatus = 4
 )
 
 // Enum value maps for AssetStatus.
@@ -39,12 +40,14 @@ var (
 		1: "ASSET_STATUS_ACTIVE",
 		2: "ASSET_STATUS_ARCHIVED",
 		3: "ASSET_STATUS_BROKEN",
+		4: "ASSET_STATUS_UPLOAD_URL_GENERATED",
 	}
 	AssetStatus_value = map[string]int32{
-		"ASSET_STATUS_UNSPECIFIED": 0,
-		"ASSET_STATUS_ACTIVE":      1,
-		"ASSET_STATUS_ARCHIVED":    2,
-		"ASSET_STATUS_BROKEN":      3,
+		"ASSET_STATUS_UNSPECIFIED":          0,
+		"ASSET_STATUS_ACTIVE":               1,
+		"ASSET_STATUS_ARCHIVED":             2,
+		"ASSET_STATUS_BROKEN":               3,
+		"ASSET_STATUS_UPLOAD_URL_GENERATED": 4,
 	}
 )
 
@@ -93,14 +96,14 @@ type Asset struct {
 	Tags                 []string               `protobuf:"bytes,13,rep,name=tags,proto3" json:"tags,omitempty"`
 	AssetFolder          string                 `protobuf:"bytes,14,opt,name=asset_folder,json=assetFolder,proto3" json:"asset_folder,omitempty"`
 	DisplayName          string                 `protobuf:"bytes,15,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-	CreatedBy            []byte                 `protobuf:"bytes,16,opt,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"`
-	ArchivedBy           []byte                 `protobuf:"bytes,17,opt,name=archived_by,json=archivedBy,proto3" json:"archived_by,omitempty"`
-	RestoredBy           []byte                 `protobuf:"bytes,18,opt,name=restored_by,json=restoredBy,proto3" json:"restored_by,omitempty"`
-	MarkedAsBrokenBy     []byte                 `protobuf:"bytes,19,opt,name=marked_as_broken_by,json=markedAsBrokenBy,proto3" json:"marked_as_broken_by,omitempty"`
-	CreatedByName        string                 `protobuf:"bytes,20,opt,name=created_by_name,json=createdByName,proto3" json:"created_by_name,omitempty"`
-	ArchivedByName       string                 `protobuf:"bytes,21,opt,name=archived_by_name,json=archivedByName,proto3" json:"archived_by_name,omitempty"`
-	RestoredByName       string                 `protobuf:"bytes,22,opt,name=restored_by_name,json=restoredByName,proto3" json:"restored_by_name,omitempty"`
-	MarkedAsBrokenByName string                 `protobuf:"bytes,23,opt,name=marked_as_broken_by_name,json=markedAsBrokenByName,proto3" json:"marked_as_broken_by_name,omitempty"`
+	CreatedBy            []byte                 `protobuf:"bytes,16,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"`
+	ArchivedBy           []byte                 `protobuf:"bytes,17,opt,name=archived_by,json=archivedBy,proto3,oneof" json:"archived_by,omitempty"`
+	RestoredBy           []byte                 `protobuf:"bytes,18,opt,name=restored_by,json=restoredBy,proto3,oneof" json:"restored_by,omitempty"`
+	MarkedAsBrokenBy     []byte                 `protobuf:"bytes,19,opt,name=marked_as_broken_by,json=markedAsBrokenBy,proto3,oneof" json:"marked_as_broken_by,omitempty"`
+	CreatedByName        *string                `protobuf:"bytes,20,opt,name=created_by_name,json=createdByName,proto3,oneof" json:"created_by_name,omitempty"`
+	ArchivedByName       *string                `protobuf:"bytes,21,opt,name=archived_by_name,json=archivedByName,proto3,oneof" json:"archived_by_name,omitempty"`
+	RestoredByName       *string                `protobuf:"bytes,22,opt,name=restored_by_name,json=restoredByName,proto3,oneof" json:"restored_by_name,omitempty"`
+	MarkedAsBrokenByName *string                `protobuf:"bytes,23,opt,name=marked_as_broken_by_name,json=markedAsBrokenByName,proto3,oneof" json:"marked_as_broken_by_name,omitempty"`
 	Note                 *string                `protobuf:"bytes,24,opt,name=note,proto3,oneof" json:"note,omitempty"`
 	ArchiveReason        *string                `protobuf:"bytes,25,opt,name=archive_reason,json=archiveReason,proto3,oneof" json:"archive_reason,omitempty"`
 	unknownFields        protoimpl.UnknownFields
@@ -278,29 +281,29 @@ func (x *Asset) GetMarkedAsBrokenBy() []byte {
 }
 
 func (x *Asset) GetCreatedByName() string {
-	if x != nil {
-		return x.CreatedByName
+	if x != nil && x.CreatedByName != nil {
+		return *x.CreatedByName
 	}
 	return ""
 }
 
 func (x *Asset) GetArchivedByName() string {
-	if x != nil {
-		return x.ArchivedByName
+	if x != nil && x.ArchivedByName != nil {
+		return *x.ArchivedByName
 	}
 	return ""
 }
 
 func (x *Asset) GetRestoredByName() string {
-	if x != nil {
-		return x.RestoredByName
+	if x != nil && x.RestoredByName != nil {
+		return *x.RestoredByName
 	}
 	return ""
 }
 
 func (x *Asset) GetMarkedAsBrokenByName() string {
-	if x != nil {
-		return x.MarkedAsBrokenByName
+	if x != nil && x.MarkedAsBrokenByName != nil {
+		return *x.MarkedAsBrokenByName
 	}
 	return ""
 }
@@ -1495,6 +1498,9 @@ func (*RestoreResponse) Descriptor() ([]byte, []int) {
 type DeleteRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Uuid          []byte                 `protobuf:"bytes,1,opt,name=uuid,proto3" json:"uuid,omitempty"`
+	AdminUuid     []byte                 `protobuf:"bytes,2,opt,name=admin_uuid,json=adminUuid,proto3" json:"admin_uuid,omitempty"`
+	AdminName     string                 `protobuf:"bytes,3,opt,name=admin_name,json=adminName,proto3" json:"admin_name,omitempty"`
+	Note          string                 `protobuf:"bytes,4,opt,name=note,proto3" json:"note,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1534,6 +1540,27 @@ func (x *DeleteRequest) GetUuid() []byte {
 		return x.Uuid
 	}
 	return nil
+}
+
+func (x *DeleteRequest) GetAdminUuid() []byte {
+	if x != nil {
+		return x.AdminUuid
+	}
+	return nil
+}
+
+func (x *DeleteRequest) GetAdminName() string {
+	if x != nil {
+		return x.AdminName
+	}
+	return ""
+}
+
+func (x *DeleteRequest) GetNote() string {
+	if x != nil {
+		return x.Note
+	}
+	return ""
 }
 
 type DeleteResponse struct {
@@ -1952,7 +1979,8 @@ var File_media_service_cloudinary_asset_v1_asset_proto protoreflect.FileDescript
 
 const file_media_service_cloudinary_asset_v1_asset_proto_rawDesc = "" +
 	"\n" +
-	"-media_service/cloudinary/asset/v1/asset.proto\x12!media_service.cloudinary.asset.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a9media_service/cloudinary/metadata/v1/asset_metadata.proto\"\xc4\b\n" +
+	"-media_service/cloudinary/asset/v1/asset.proto\x12!media_service.cloudinary.asset.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a9media_service/cloudinary/metadata/v1/asset_metadata.proto\"\x8e\n" +
+	"\n" +
 	"\x05Asset\x12\x12\n" +
 	"\x04uuid\x18\x01 \x01(\fR\x04uuid\x129\n" +
 	"\n" +
@@ -1974,23 +2002,32 @@ const file_media_service_cloudinary_asset_v1_asset_proto_rawDesc = "" +
 	"\x06height\x18\f \x01(\x05H\x02R\x06height\x88\x01\x01\x12\x12\n" +
 	"\x04tags\x18\r \x03(\tR\x04tags\x12!\n" +
 	"\fasset_folder\x18\x0e \x01(\tR\vassetFolder\x12!\n" +
-	"\fdisplay_name\x18\x0f \x01(\tR\vdisplayName\x12\x1d\n" +
+	"\fdisplay_name\x18\x0f \x01(\tR\vdisplayName\x12\"\n" +
 	"\n" +
-	"created_by\x18\x10 \x01(\fR\tcreatedBy\x12\x1f\n" +
-	"\varchived_by\x18\x11 \x01(\fR\n" +
-	"archivedBy\x12\x1f\n" +
-	"\vrestored_by\x18\x12 \x01(\fR\n" +
-	"restoredBy\x12-\n" +
-	"\x13marked_as_broken_by\x18\x13 \x01(\fR\x10markedAsBrokenBy\x12&\n" +
-	"\x0fcreated_by_name\x18\x14 \x01(\tR\rcreatedByName\x12(\n" +
-	"\x10archived_by_name\x18\x15 \x01(\tR\x0earchivedByName\x12(\n" +
-	"\x10restored_by_name\x18\x16 \x01(\tR\x0erestoredByName\x126\n" +
-	"\x18marked_as_broken_by_name\x18\x17 \x01(\tR\x14markedAsBrokenByName\x12\x17\n" +
-	"\x04note\x18\x18 \x01(\tH\x03R\x04note\x88\x01\x01\x12*\n" +
-	"\x0earchive_reason\x18\x19 \x01(\tH\x04R\rarchiveReason\x88\x01\x01B\r\n" +
+	"created_by\x18\x10 \x01(\fH\x03R\tcreatedBy\x88\x01\x01\x12$\n" +
+	"\varchived_by\x18\x11 \x01(\fH\x04R\n" +
+	"archivedBy\x88\x01\x01\x12$\n" +
+	"\vrestored_by\x18\x12 \x01(\fH\x05R\n" +
+	"restoredBy\x88\x01\x01\x122\n" +
+	"\x13marked_as_broken_by\x18\x13 \x01(\fH\x06R\x10markedAsBrokenBy\x88\x01\x01\x12+\n" +
+	"\x0fcreated_by_name\x18\x14 \x01(\tH\aR\rcreatedByName\x88\x01\x01\x12-\n" +
+	"\x10archived_by_name\x18\x15 \x01(\tH\bR\x0earchivedByName\x88\x01\x01\x12-\n" +
+	"\x10restored_by_name\x18\x16 \x01(\tH\tR\x0erestoredByName\x88\x01\x01\x12;\n" +
+	"\x18marked_as_broken_by_name\x18\x17 \x01(\tH\n" +
+	"R\x14markedAsBrokenByName\x88\x01\x01\x12\x17\n" +
+	"\x04note\x18\x18 \x01(\tH\vR\x04note\x88\x01\x01\x12*\n" +
+	"\x0earchive_reason\x18\x19 \x01(\tH\fR\rarchiveReason\x88\x01\x01B\r\n" +
 	"\v_deleted_atB\b\n" +
 	"\x06_widthB\t\n" +
-	"\a_heightB\a\n" +
+	"\a_heightB\r\n" +
+	"\v_created_byB\x0e\n" +
+	"\f_archived_byB\x0e\n" +
+	"\f_restored_byB\x16\n" +
+	"\x14_marked_as_broken_byB\x12\n" +
+	"\x10_created_by_nameB\x13\n" +
+	"\x11_archived_by_nameB\x13\n" +
+	"\x11_restored_by_nameB\x1b\n" +
+	"\x19_marked_as_broken_by_nameB\a\n" +
 	"\x05_noteB\x11\n" +
 	"\x0f_archive_reason\"\xa5\x01\n" +
 	"\aDetails\x12>\n" +
@@ -2094,9 +2131,14 @@ const file_media_service_cloudinary_asset_v1_asset_proto_rawDesc = "" +
 	"\n" +
 	"admin_name\x18\x03 \x01(\tR\tadminName\x12\x12\n" +
 	"\x04note\x18\x04 \x01(\tR\x04note\"\x11\n" +
-	"\x0fRestoreResponse\"#\n" +
+	"\x0fRestoreResponse\"u\n" +
 	"\rDeleteRequest\x12\x12\n" +
-	"\x04uuid\x18\x01 \x01(\fR\x04uuid\"\x10\n" +
+	"\x04uuid\x18\x01 \x01(\fR\x04uuid\x12\x1d\n" +
+	"\n" +
+	"admin_uuid\x18\x02 \x01(\fR\tadminUuid\x12\x1d\n" +
+	"\n" +
+	"admin_name\x18\x03 \x01(\tR\tadminName\x12\x12\n" +
+	"\x04note\x18\x04 \x01(\tR\x04note\"\x10\n" +
 	"\x0eDeleteResponse\"\r\n" +
 	"\vPingRequest\",\n" +
 	"\fPingResponse\x12\x1c\n" +
@@ -2122,12 +2164,13 @@ const file_media_service_cloudinary_asset_v1_asset_proto_rawDesc = "" +
 	"owner_uuid\x18\x02 \x01(\fR\townerUuid\x12\x1d\n" +
 	"\n" +
 	"owner_type\x18\x03 \x01(\tR\townerType\"\x15\n" +
-	"\x13RemoveOwnerResponse*x\n" +
+	"\x13RemoveOwnerResponse*\x9f\x01\n" +
 	"\vAssetStatus\x12\x1c\n" +
 	"\x18ASSET_STATUS_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x13ASSET_STATUS_ACTIVE\x10\x01\x12\x19\n" +
 	"\x15ASSET_STATUS_ARCHIVED\x10\x02\x12\x17\n" +
-	"\x13ASSET_STATUS_BROKEN\x10\x032\xb6\r\n" +
+	"\x13ASSET_STATUS_BROKEN\x10\x03\x12%\n" +
+	"!ASSET_STATUS_UPLOAD_URL_GENERATED\x10\x042\xb6\r\n" +
 	"\fAssetService\x12g\n" +
 	"\x04Ping\x12..media_service.cloudinary.asset.v1.PingRequest\x1a/.media_service.cloudinary.asset.v1.PingResponse\x12d\n" +
 	"\x03Get\x12-.media_service.cloudinary.asset.v1.GetRequest\x1a..media_service.cloudinary.asset.v1.GetResponse\x12\x88\x01\n" +

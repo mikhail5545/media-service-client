@@ -85,10 +85,10 @@ type MuxWebhookTrack struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Type           string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
-	Duration       *float32               `protobuf:"fixed32,3,opt,name=duration,proto3,oneof" json:"duration,omitempty"`
+	Duration       *float64               `protobuf:"fixed64,3,opt,name=duration,proto3,oneof" json:"duration,omitempty"`
 	MaxWidth       *int64                 `protobuf:"varint,4,opt,name=max_width,json=maxWidth,proto3,oneof" json:"max_width,omitempty"`
 	MaxHeight      *int64                 `protobuf:"varint,5,opt,name=max_height,json=maxHeight,proto3,oneof" json:"max_height,omitempty"`
-	MaxFrameRate   *int64                 `protobuf:"varint,6,opt,name=max_frame_rate,json=maxFrameRate,proto3,oneof" json:"max_frame_rate,omitempty"`
+	MaxFrameRate   *float64               `protobuf:"fixed64,6,opt,name=max_frame_rate,json=maxFrameRate,proto3,oneof" json:"max_frame_rate,omitempty"`
 	MaxChannels    *int64                 `protobuf:"varint,7,opt,name=max_channels,json=maxChannels,proto3,oneof" json:"max_channels,omitempty"`
 	TextType       *string                `protobuf:"bytes,8,opt,name=text_type,json=textType,proto3,oneof" json:"text_type,omitempty"`
 	TextSource     *string                `protobuf:"bytes,9,opt,name=text_source,json=textSource,proto3,oneof" json:"text_source,omitempty"`
@@ -146,7 +146,7 @@ func (x *MuxWebhookTrack) GetType() string {
 	return ""
 }
 
-func (x *MuxWebhookTrack) GetDuration() float32 {
+func (x *MuxWebhookTrack) GetDuration() float64 {
 	if x != nil && x.Duration != nil {
 		return *x.Duration
 	}
@@ -167,7 +167,7 @@ func (x *MuxWebhookTrack) GetMaxHeight() int64 {
 	return 0
 }
 
-func (x *MuxWebhookTrack) GetMaxFrameRate() int64 {
+func (x *MuxWebhookTrack) GetMaxFrameRate() float64 {
 	if x != nil && x.MaxFrameRate != nil {
 		return *x.MaxFrameRate
 	}
@@ -302,11 +302,11 @@ const file_media_service_mux_webhook_v1_webhook_proto_rawDesc = "" +
 	"\x0fMuxWebhookTrack\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x12\x1f\n" +
-	"\bduration\x18\x03 \x01(\x02H\x00R\bduration\x88\x01\x01\x12 \n" +
+	"\bduration\x18\x03 \x01(\x01H\x00R\bduration\x88\x01\x01\x12 \n" +
 	"\tmax_width\x18\x04 \x01(\x03H\x01R\bmaxWidth\x88\x01\x01\x12\"\n" +
 	"\n" +
 	"max_height\x18\x05 \x01(\x03H\x02R\tmaxHeight\x88\x01\x01\x12)\n" +
-	"\x0emax_frame_rate\x18\x06 \x01(\x03H\x03R\fmaxFrameRate\x88\x01\x01\x12&\n" +
+	"\x0emax_frame_rate\x18\x06 \x01(\x01H\x03R\fmaxFrameRate\x88\x01\x01\x12&\n" +
 	"\fmax_channels\x18\a \x01(\x03H\x04R\vmaxChannels\x88\x01\x01\x12 \n" +
 	"\ttext_type\x18\b \x01(\tH\x05R\btextType\x88\x01\x01\x12$\n" +
 	"\vtext_source\x18\t \x01(\tH\x06R\n" +

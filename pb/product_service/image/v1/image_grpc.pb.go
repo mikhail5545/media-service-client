@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ImageService_Ping_FullMethodName        = "/product_service.image.v1.ImageService/Ping"
-	ImageService_BrokenImage_FullMethodName = "/product_service.image.v1.ImageService/BrokenImage"
-	ImageService_Delete_FullMethodName      = "/product_service.image.v1.ImageService/Delete"
-	ImageService_DeleteBatch_FullMethodName = "/product_service.image.v1.ImageService/DeleteBatch"
+	ImageService_Ping_FullMethodName             = "/product_service.image.v1.ImageService/Ping"
+	ImageService_BrokenImage_FullMethodName      = "/product_service.image.v1.ImageService/BrokenImage"
+	ImageService_Delete_FullMethodName           = "/product_service.image.v1.ImageService/Delete"
+	ImageService_ForceDelete_FullMethodName      = "/product_service.image.v1.ImageService/ForceDelete"
+	ImageService_ForceDeleteBatch_FullMethodName = "/product_service.image.v1.ImageService/ForceDeleteBatch"
 )
 
 // ImageServiceClient is the client API for ImageService service.
@@ -32,7 +33,10 @@ type ImageServiceClient interface {
 	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
 	BrokenImage(ctx context.Context, in *BrokenImageRequest, opts ...grpc.CallOption) (*BrokenImageResponse, error)
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
-	DeleteBatch(ctx context.Context, in *DeleteBatchRequest, opts ...grpc.CallOption) (*DeleteBatchResponse, error)
+	// ForceDelete permanently deletes an image and all its associated data. It should be used with caution in scenarios where data recovery is not possible through standard deletion methods.
+	ForceDelete(ctx context.Context, in *ForceDeleteRequest, opts ...grpc.CallOption) (*ForceDeleteResponse, error)
+	// ForceDeleteBatch permanently deletes images and all associated data. It should be used with caution in scenarios where data recovery is not possible through standard deletion methods.
+	ForceDeleteBatch(ctx context.Context, in *ForceDeleteBatchRequest, opts ...grpc.CallOption) (*ForceDeleteBatchResponse, error)
 }
 
 type imageServiceClient struct {
@@ -73,10 +77,20 @@ func (c *imageServiceClient) Delete(ctx context.Context, in *DeleteRequest, opts
 	return out, nil
 }
 
-func (c *imageServiceClient) DeleteBatch(ctx context.Context, in *DeleteBatchRequest, opts ...grpc.CallOption) (*DeleteBatchResponse, error) {
+func (c *imageServiceClient) ForceDelete(ctx context.Context, in *ForceDeleteRequest, opts ...grpc.CallOption) (*ForceDeleteResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteBatchResponse)
-	err := c.cc.Invoke(ctx, ImageService_DeleteBatch_FullMethodName, in, out, cOpts...)
+	out := new(ForceDeleteResponse)
+	err := c.cc.Invoke(ctx, ImageService_ForceDelete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *imageServiceClient) ForceDeleteBatch(ctx context.Context, in *ForceDeleteBatchRequest, opts ...grpc.CallOption) (*ForceDeleteBatchResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ForceDeleteBatchResponse)
+	err := c.cc.Invoke(ctx, ImageService_ForceDeleteBatch_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +104,10 @@ type ImageServiceServer interface {
 	Ping(context.Context, *PingRequest) (*PingResponse, error)
 	BrokenImage(context.Context, *BrokenImageRequest) (*BrokenImageResponse, error)
 	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
-	DeleteBatch(context.Context, *DeleteBatchRequest) (*DeleteBatchResponse, error)
+	// ForceDelete permanently deletes an image and all its associated data. It should be used with caution in scenarios where data recovery is not possible through standard deletion methods.
+	ForceDelete(context.Context, *ForceDeleteRequest) (*ForceDeleteResponse, error)
+	// ForceDeleteBatch permanently deletes images and all associated data. It should be used with caution in scenarios where data recovery is not possible through standard deletion methods.
+	ForceDeleteBatch(context.Context, *ForceDeleteBatchRequest) (*ForceDeleteBatchResponse, error)
 	mustEmbedUnimplementedImageServiceServer()
 }
 
@@ -110,8 +127,11 @@ func (UnimplementedImageServiceServer) BrokenImage(context.Context, *BrokenImage
 func (UnimplementedImageServiceServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Delete not implemented")
 }
-func (UnimplementedImageServiceServer) DeleteBatch(context.Context, *DeleteBatchRequest) (*DeleteBatchResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeleteBatch not implemented")
+func (UnimplementedImageServiceServer) ForceDelete(context.Context, *ForceDeleteRequest) (*ForceDeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ForceDelete not implemented")
+}
+func (UnimplementedImageServiceServer) ForceDeleteBatch(context.Context, *ForceDeleteBatchRequest) (*ForceDeleteBatchResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ForceDeleteBatch not implemented")
 }
 func (UnimplementedImageServiceServer) mustEmbedUnimplementedImageServiceServer() {}
 func (UnimplementedImageServiceServer) testEmbeddedByValue()                      {}
@@ -188,20 +208,38 @@ func _ImageService_Delete_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ImageService_DeleteBatch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteBatchRequest)
+func _ImageService_ForceDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ForceDeleteRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ImageServiceServer).DeleteBatch(ctx, in)
+		return srv.(ImageServiceServer).ForceDelete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ImageService_DeleteBatch_FullMethodName,
+		FullMethod: ImageService_ForceDelete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ImageServiceServer).DeleteBatch(ctx, req.(*DeleteBatchRequest))
+		return srv.(ImageServiceServer).ForceDelete(ctx, req.(*ForceDeleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ImageService_ForceDeleteBatch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ForceDeleteBatchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ImageServiceServer).ForceDeleteBatch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ImageService_ForceDeleteBatch_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ImageServiceServer).ForceDeleteBatch(ctx, req.(*ForceDeleteBatchRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -226,8 +264,12 @@ var ImageService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ImageService_Delete_Handler,
 		},
 		{
-			MethodName: "DeleteBatch",
-			Handler:    _ImageService_DeleteBatch_Handler,
+			MethodName: "ForceDelete",
+			Handler:    _ImageService_ForceDelete_Handler,
+		},
+		{
+			MethodName: "ForceDeleteBatch",
+			Handler:    _ImageService_ForceDeleteBatch_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
