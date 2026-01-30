@@ -266,7 +266,7 @@ type Asset struct {
 	// The status of the primary MUX asset track.
 	UploadStatus AssetUploadStatus `protobuf:"varint,8,opt,name=upload_status,json=uploadStatus,proto3,enum=media_service.mux.asset.v1.AssetUploadStatus" json:"upload_status,omitempty"`
 	// The duration of the asset in seconds.
-	Duration *float32 `protobuf:"fixed32,9,opt,name=duration,proto3,oneof" json:"duration,omitempty"`
+	Duration *float64 `protobuf:"fixed64,9,opt,name=duration,proto3,oneof" json:"duration,omitempty"`
 	// The aspect ratio of the asset, represented as a string (e.g., "16:9").
 	AspectRatio    *string                `protobuf:"bytes,10,opt,name=aspect_ratio,json=aspectRatio,proto3,oneof" json:"aspect_ratio,omitempty"`
 	AssetCreatedAt *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=asset_created_at,json=assetCreatedAt,proto3,oneof" json:"asset_created_at,omitempty"`
@@ -382,7 +382,7 @@ func (x *Asset) GetUploadStatus() AssetUploadStatus {
 	return AssetUploadStatus_ASSET_UPLOAD_STATUS_UNSPECIFIED
 }
 
-func (x *Asset) GetDuration() float32 {
+func (x *Asset) GetDuration() float64 {
 	if x != nil && x.Duration != nil {
 		return *x.Duration
 	}
@@ -2354,7 +2354,7 @@ const file_media_service_mux_asset_v1_asset_proto_rawDesc = "" +
 	"muxAssetId\x88\x01\x01\x12<\n" +
 	"\x05state\x18\a \x01(\x0e2&.media_service.mux.asset.v1.AssetStateR\x05state\x12R\n" +
 	"\rupload_status\x18\b \x01(\x0e2-.media_service.mux.asset.v1.AssetUploadStatusR\fuploadStatus\x12\x1f\n" +
-	"\bduration\x18\t \x01(\x02H\x03R\bduration\x88\x01\x01\x12&\n" +
+	"\bduration\x18\t \x01(\x01H\x03R\bduration\x88\x01\x01\x12&\n" +
 	"\faspect_ratio\x18\n" +
 	" \x01(\tH\x04R\vaspectRatio\x88\x01\x01\x12I\n" +
 	"\x10asset_created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampH\x05R\x0eassetCreatedAt\x88\x01\x01\x12,\n" +

@@ -24,6 +24,7 @@ const (
 	ImageService_Delete_FullMethodName           = "/product_service.image.v1.ImageService/Delete"
 	ImageService_ForceDelete_FullMethodName      = "/product_service.image.v1.ImageService/ForceDelete"
 	ImageService_ForceDeleteBatch_FullMethodName = "/product_service.image.v1.ImageService/ForceDeleteBatch"
+	ImageService_Update_FullMethodName           = "/product_service.image.v1.ImageService/Update"
 )
 
 // ImageServiceClient is the client API for ImageService service.
@@ -37,6 +38,8 @@ type ImageServiceClient interface {
 	ForceDelete(ctx context.Context, in *ForceDeleteRequest, opts ...grpc.CallOption) (*ForceDeleteResponse, error)
 	// ForceDeleteBatch permanently deletes images and all associated data. It should be used with caution in scenarios where data recovery is not possible through standard deletion methods.
 	ForceDeleteBatch(ctx context.Context, in *ForceDeleteBatchRequest, opts ...grpc.CallOption) (*ForceDeleteBatchResponse, error)
+	// Update is designed to be used only by internal services to modify video data, for example, on external storage provider webhooks.
+	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
 }
 
 type imageServiceClient struct {
@@ -97,6 +100,16 @@ func (c *imageServiceClient) ForceDeleteBatch(ctx context.Context, in *ForceDele
 	return out, nil
 }
 
+func (c *imageServiceClient) Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateResponse)
+	err := c.cc.Invoke(ctx, ImageService_Update_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ImageServiceServer is the server API for ImageService service.
 // All implementations must embed UnimplementedImageServiceServer
 // for forward compatibility.
@@ -108,6 +121,8 @@ type ImageServiceServer interface {
 	ForceDelete(context.Context, *ForceDeleteRequest) (*ForceDeleteResponse, error)
 	// ForceDeleteBatch permanently deletes images and all associated data. It should be used with caution in scenarios where data recovery is not possible through standard deletion methods.
 	ForceDeleteBatch(context.Context, *ForceDeleteBatchRequest) (*ForceDeleteBatchResponse, error)
+	// Update is designed to be used only by internal services to modify video data, for example, on external storage provider webhooks.
+	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
 	mustEmbedUnimplementedImageServiceServer()
 }
 
@@ -132,6 +147,9 @@ func (UnimplementedImageServiceServer) ForceDelete(context.Context, *ForceDelete
 }
 func (UnimplementedImageServiceServer) ForceDeleteBatch(context.Context, *ForceDeleteBatchRequest) (*ForceDeleteBatchResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ForceDeleteBatch not implemented")
+}
+func (UnimplementedImageServiceServer) Update(context.Context, *UpdateRequest) (*UpdateResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedImageServiceServer) mustEmbedUnimplementedImageServiceServer() {}
 func (UnimplementedImageServiceServer) testEmbeddedByValue()                      {}
@@ -244,6 +262,24 @@ func _ImageService_ForceDeleteBatch_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ImageService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ImageServiceServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ImageService_Update_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ImageServiceServer).Update(ctx, req.(*UpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ImageService_ServiceDesc is the grpc.ServiceDesc for ImageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -270,6 +306,10 @@ var ImageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ForceDeleteBatch",
 			Handler:    _ImageService_ForceDeleteBatch_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _ImageService_Update_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

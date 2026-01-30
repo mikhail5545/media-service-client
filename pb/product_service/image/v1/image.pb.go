@@ -25,11 +25,11 @@ const (
 type ImageStatus int32
 
 const (
-	ImageStatus_IMAGE_STATUS_UNSPECIFIED ImageStatus = 0
-	ImageStatus_IMAGE_STATUS_ACTIVE      ImageStatus = 1
-	ImageStatus_IMAGE_STATUS_DRAFT       ImageStatus = 2
-	ImageStatus_IMAGE_STATUS_ARCHIVED    ImageStatus = 3
-	ImageStatus_IMAGE_STATUS_BROKEN      ImageStatus = 4
+	ImageStatus_IMAGE_STATUS_UNSPECIFIED          ImageStatus = 0
+	ImageStatus_IMAGE_STATUS_ACTIVE               ImageStatus = 1
+	ImageStatus_IMAGE_STATUS_UPLOAD_URL_GENERATED ImageStatus = 2
+	ImageStatus_IMAGE_STATUS_ARCHIVED             ImageStatus = 3
+	ImageStatus_IMAGE_STATUS_BROKEN               ImageStatus = 4
 )
 
 // Enum value maps for ImageStatus.
@@ -37,16 +37,16 @@ var (
 	ImageStatus_name = map[int32]string{
 		0: "IMAGE_STATUS_UNSPECIFIED",
 		1: "IMAGE_STATUS_ACTIVE",
-		2: "IMAGE_STATUS_DRAFT",
+		2: "IMAGE_STATUS_UPLOAD_URL_GENERATED",
 		3: "IMAGE_STATUS_ARCHIVED",
 		4: "IMAGE_STATUS_BROKEN",
 	}
 	ImageStatus_value = map[string]int32{
-		"IMAGE_STATUS_UNSPECIFIED": 0,
-		"IMAGE_STATUS_ACTIVE":      1,
-		"IMAGE_STATUS_DRAFT":       2,
-		"IMAGE_STATUS_ARCHIVED":    3,
-		"IMAGE_STATUS_BROKEN":      4,
+		"IMAGE_STATUS_UNSPECIFIED":          0,
+		"IMAGE_STATUS_ACTIVE":               1,
+		"IMAGE_STATUS_UPLOAD_URL_GENERATED": 2,
+		"IMAGE_STATUS_ARCHIVED":             3,
+		"IMAGE_STATUS_BROKEN":               4,
 	}
 )
 
@@ -649,6 +649,166 @@ func (x *PingResponse) GetTimestamp() int64 {
 	return 0
 }
 
+type UpdateRequest struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	MediaServiceUuid []byte                 `protobuf:"bytes,1,opt,name=media_service_uuid,json=mediaServiceUuid,proto3" json:"media_service_uuid,omitempty"`
+	ImageStatus      *ImageStatus           `protobuf:"varint,2,opt,name=image_status,json=imageStatus,proto3,enum=product_service.image.v1.ImageStatus,oneof" json:"image_status,omitempty"`
+	Url              *string                `protobuf:"bytes,3,opt,name=url,proto3,oneof" json:"url,omitempty"`
+	SecureUrl        *string                `protobuf:"bytes,4,opt,name=secure_url,json=secureUrl,proto3,oneof" json:"secure_url,omitempty"`
+	PublicId         *string                `protobuf:"bytes,5,opt,name=public_id,json=publicId,proto3,oneof" json:"public_id,omitempty"`
+	Format           *string                `protobuf:"bytes,6,opt,name=format,proto3,oneof" json:"format,omitempty"`
+	ResourceType     *string                `protobuf:"bytes,7,opt,name=resource_type,json=resourceType,proto3,oneof" json:"resource_type,omitempty"`
+	Folder           *string                `protobuf:"bytes,8,opt,name=folder,proto3,oneof" json:"folder,omitempty"`
+	DisplayName      *string                `protobuf:"bytes,9,opt,name=display_name,json=displayName,proto3,oneof" json:"display_name,omitempty"`
+	Width            *int32                 `protobuf:"varint,10,opt,name=width,proto3,oneof" json:"width,omitempty"`
+	Height           *int32                 `protobuf:"varint,11,opt,name=height,proto3,oneof" json:"height,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *UpdateRequest) Reset() {
+	*x = UpdateRequest{}
+	mi := &file_product_service_image_v1_image_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateRequest) ProtoMessage() {}
+
+func (x *UpdateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_product_service_image_v1_image_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateRequest.ProtoReflect.Descriptor instead.
+func (*UpdateRequest) Descriptor() ([]byte, []int) {
+	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *UpdateRequest) GetMediaServiceUuid() []byte {
+	if x != nil {
+		return x.MediaServiceUuid
+	}
+	return nil
+}
+
+func (x *UpdateRequest) GetImageStatus() ImageStatus {
+	if x != nil && x.ImageStatus != nil {
+		return *x.ImageStatus
+	}
+	return ImageStatus_IMAGE_STATUS_UNSPECIFIED
+}
+
+func (x *UpdateRequest) GetUrl() string {
+	if x != nil && x.Url != nil {
+		return *x.Url
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetSecureUrl() string {
+	if x != nil && x.SecureUrl != nil {
+		return *x.SecureUrl
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetPublicId() string {
+	if x != nil && x.PublicId != nil {
+		return *x.PublicId
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetFormat() string {
+	if x != nil && x.Format != nil {
+		return *x.Format
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetResourceType() string {
+	if x != nil && x.ResourceType != nil {
+		return *x.ResourceType
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetFolder() string {
+	if x != nil && x.Folder != nil {
+		return *x.Folder
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetDisplayName() string {
+	if x != nil && x.DisplayName != nil {
+		return *x.DisplayName
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetWidth() int32 {
+	if x != nil && x.Width != nil {
+		return *x.Width
+	}
+	return 0
+}
+
+func (x *UpdateRequest) GetHeight() int32 {
+	if x != nil && x.Height != nil {
+		return *x.Height
+	}
+	return 0
+}
+
+type UpdateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateResponse) Reset() {
+	*x = UpdateResponse{}
+	mi := &file_product_service_image_v1_image_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateResponse) ProtoMessage() {}
+
+func (x *UpdateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_product_service_image_v1_image_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateResponse.ProtoReflect.Descriptor instead.
+func (*UpdateResponse) Descriptor() ([]byte, []int) {
+	return file_product_service_image_v1_image_proto_rawDescGZIP(), []int{12}
+}
+
 var File_product_service_image_v1_image_proto protoreflect.FileDescriptor
 
 const file_product_service_image_v1_image_proto_rawDesc = "" +
@@ -694,19 +854,46 @@ const file_product_service_image_v1_image_proto_rawDesc = "" +
 	"\x18ForceDeleteBatchResponse\"\r\n" +
 	"\vPingRequest\",\n" +
 	"\fPingResponse\x12\x1c\n" +
-	"\ttimestamp\x18\x01 \x01(\x03R\ttimestamp*\x90\x01\n" +
+	"\ttimestamp\x18\x01 \x01(\x03R\ttimestamp\"\xb1\x04\n" +
+	"\rUpdateRequest\x12,\n" +
+	"\x12media_service_uuid\x18\x01 \x01(\fR\x10mediaServiceUuid\x12M\n" +
+	"\fimage_status\x18\x02 \x01(\x0e2%.product_service.image.v1.ImageStatusH\x00R\vimageStatus\x88\x01\x01\x12\x15\n" +
+	"\x03url\x18\x03 \x01(\tH\x01R\x03url\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"secure_url\x18\x04 \x01(\tH\x02R\tsecureUrl\x88\x01\x01\x12 \n" +
+	"\tpublic_id\x18\x05 \x01(\tH\x03R\bpublicId\x88\x01\x01\x12\x1b\n" +
+	"\x06format\x18\x06 \x01(\tH\x04R\x06format\x88\x01\x01\x12(\n" +
+	"\rresource_type\x18\a \x01(\tH\x05R\fresourceType\x88\x01\x01\x12\x1b\n" +
+	"\x06folder\x18\b \x01(\tH\x06R\x06folder\x88\x01\x01\x12&\n" +
+	"\fdisplay_name\x18\t \x01(\tH\aR\vdisplayName\x88\x01\x01\x12\x19\n" +
+	"\x05width\x18\n" +
+	" \x01(\x05H\bR\x05width\x88\x01\x01\x12\x1b\n" +
+	"\x06height\x18\v \x01(\x05H\tR\x06height\x88\x01\x01B\x0f\n" +
+	"\r_image_statusB\x06\n" +
+	"\x04_urlB\r\n" +
+	"\v_secure_urlB\f\n" +
+	"\n" +
+	"_public_idB\t\n" +
+	"\a_formatB\x10\n" +
+	"\x0e_resource_typeB\t\n" +
+	"\a_folderB\x0f\n" +
+	"\r_display_nameB\b\n" +
+	"\x06_widthB\t\n" +
+	"\a_height\"\x10\n" +
+	"\x0eUpdateResponse*\x9f\x01\n" +
 	"\vImageStatus\x12\x1c\n" +
 	"\x18IMAGE_STATUS_UNSPECIFIED\x10\x00\x12\x17\n" +
-	"\x13IMAGE_STATUS_ACTIVE\x10\x01\x12\x16\n" +
-	"\x12IMAGE_STATUS_DRAFT\x10\x02\x12\x19\n" +
+	"\x13IMAGE_STATUS_ACTIVE\x10\x01\x12%\n" +
+	"!IMAGE_STATUS_UPLOAD_URL_GENERATED\x10\x02\x12\x19\n" +
 	"\x15IMAGE_STATUS_ARCHIVED\x10\x03\x12\x17\n" +
-	"\x13IMAGE_STATUS_BROKEN\x10\x042\x95\x04\n" +
+	"\x13IMAGE_STATUS_BROKEN\x10\x042\xf2\x04\n" +
 	"\fImageService\x12U\n" +
 	"\x04Ping\x12%.product_service.image.v1.PingRequest\x1a&.product_service.image.v1.PingResponse\x12j\n" +
 	"\vBrokenImage\x12,.product_service.image.v1.BrokenImageRequest\x1a-.product_service.image.v1.BrokenImageResponse\x12[\n" +
 	"\x06Delete\x12'.product_service.image.v1.DeleteRequest\x1a(.product_service.image.v1.DeleteResponse\x12j\n" +
 	"\vForceDelete\x12,.product_service.image.v1.ForceDeleteRequest\x1a-.product_service.image.v1.ForceDeleteResponse\x12y\n" +
-	"\x10ForceDeleteBatch\x121.product_service.image.v1.ForceDeleteBatchRequest\x1a2.product_service.image.v1.ForceDeleteBatchResponseB\xf9\x01\n" +
+	"\x10ForceDeleteBatch\x121.product_service.image.v1.ForceDeleteBatchRequest\x1a2.product_service.image.v1.ForceDeleteBatchResponse\x12[\n" +
+	"\x06Update\x12'.product_service.image.v1.UpdateRequest\x1a(.product_service.image.v1.UpdateResponseB\xf9\x01\n" +
 	"\x1ccom.product_service.image.v1B\n" +
 	"ImageProtoP\x01ZOgithub.com/mikhail5545/media-service-client/pb/product_service/image/v1;imagev1\xa2\x02\x03PIX\xaa\x02\x17ProductService.Image.V1\xca\x02\x17ProductService\\Image\\V1\xe2\x02#ProductService\\Image\\V1\\GPBMetadata\xea\x02\x19ProductService::Image::V1b\x06proto3"
 
@@ -723,7 +910,7 @@ func file_product_service_image_v1_image_proto_rawDescGZIP() []byte {
 }
 
 var file_product_service_image_v1_image_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_product_service_image_v1_image_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_product_service_image_v1_image_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_product_service_image_v1_image_proto_goTypes = []any{
 	(ImageStatus)(0),                 // 0: product_service.image.v1.ImageStatus
 	(*Image)(nil),                    // 1: product_service.image.v1.Image
@@ -737,27 +924,32 @@ var file_product_service_image_v1_image_proto_goTypes = []any{
 	(*ForceDeleteBatchResponse)(nil), // 9: product_service.image.v1.ForceDeleteBatchResponse
 	(*PingRequest)(nil),              // 10: product_service.image.v1.PingRequest
 	(*PingResponse)(nil),             // 11: product_service.image.v1.PingResponse
-	(*timestamppb.Timestamp)(nil),    // 12: google.protobuf.Timestamp
+	(*UpdateRequest)(nil),            // 12: product_service.image.v1.UpdateRequest
+	(*UpdateResponse)(nil),           // 13: product_service.image.v1.UpdateResponse
+	(*timestamppb.Timestamp)(nil),    // 14: google.protobuf.Timestamp
 }
 var file_product_service_image_v1_image_proto_depIdxs = []int32{
-	12, // 0: product_service.image.v1.Image.created_at:type_name -> google.protobuf.Timestamp
-	12, // 1: product_service.image.v1.Image.updated_at:type_name -> google.protobuf.Timestamp
+	14, // 0: product_service.image.v1.Image.created_at:type_name -> google.protobuf.Timestamp
+	14, // 1: product_service.image.v1.Image.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 2: product_service.image.v1.Image.status:type_name -> product_service.image.v1.ImageStatus
-	10, // 3: product_service.image.v1.ImageService.Ping:input_type -> product_service.image.v1.PingRequest
-	2,  // 4: product_service.image.v1.ImageService.BrokenImage:input_type -> product_service.image.v1.BrokenImageRequest
-	4,  // 5: product_service.image.v1.ImageService.Delete:input_type -> product_service.image.v1.DeleteRequest
-	6,  // 6: product_service.image.v1.ImageService.ForceDelete:input_type -> product_service.image.v1.ForceDeleteRequest
-	8,  // 7: product_service.image.v1.ImageService.ForceDeleteBatch:input_type -> product_service.image.v1.ForceDeleteBatchRequest
-	11, // 8: product_service.image.v1.ImageService.Ping:output_type -> product_service.image.v1.PingResponse
-	3,  // 9: product_service.image.v1.ImageService.BrokenImage:output_type -> product_service.image.v1.BrokenImageResponse
-	5,  // 10: product_service.image.v1.ImageService.Delete:output_type -> product_service.image.v1.DeleteResponse
-	7,  // 11: product_service.image.v1.ImageService.ForceDelete:output_type -> product_service.image.v1.ForceDeleteResponse
-	9,  // 12: product_service.image.v1.ImageService.ForceDeleteBatch:output_type -> product_service.image.v1.ForceDeleteBatchResponse
-	8,  // [8:13] is the sub-list for method output_type
-	3,  // [3:8] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	0,  // 3: product_service.image.v1.UpdateRequest.image_status:type_name -> product_service.image.v1.ImageStatus
+	10, // 4: product_service.image.v1.ImageService.Ping:input_type -> product_service.image.v1.PingRequest
+	2,  // 5: product_service.image.v1.ImageService.BrokenImage:input_type -> product_service.image.v1.BrokenImageRequest
+	4,  // 6: product_service.image.v1.ImageService.Delete:input_type -> product_service.image.v1.DeleteRequest
+	6,  // 7: product_service.image.v1.ImageService.ForceDelete:input_type -> product_service.image.v1.ForceDeleteRequest
+	8,  // 8: product_service.image.v1.ImageService.ForceDeleteBatch:input_type -> product_service.image.v1.ForceDeleteBatchRequest
+	12, // 9: product_service.image.v1.ImageService.Update:input_type -> product_service.image.v1.UpdateRequest
+	11, // 10: product_service.image.v1.ImageService.Ping:output_type -> product_service.image.v1.PingResponse
+	3,  // 11: product_service.image.v1.ImageService.BrokenImage:output_type -> product_service.image.v1.BrokenImageResponse
+	5,  // 12: product_service.image.v1.ImageService.Delete:output_type -> product_service.image.v1.DeleteResponse
+	7,  // 13: product_service.image.v1.ImageService.ForceDelete:output_type -> product_service.image.v1.ForceDeleteResponse
+	9,  // 14: product_service.image.v1.ImageService.ForceDeleteBatch:output_type -> product_service.image.v1.ForceDeleteBatchResponse
+	13, // 15: product_service.image.v1.ImageService.Update:output_type -> product_service.image.v1.UpdateResponse
+	10, // [10:16] is the sub-list for method output_type
+	4,  // [4:10] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_product_service_image_v1_image_proto_init() }
@@ -766,13 +958,14 @@ func file_product_service_image_v1_image_proto_init() {
 		return
 	}
 	file_product_service_image_v1_image_proto_msgTypes[0].OneofWrappers = []any{}
+	file_product_service_image_v1_image_proto_msgTypes[11].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_product_service_image_v1_image_proto_rawDesc), len(file_product_service_image_v1_image_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   11,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

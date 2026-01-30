@@ -25,22 +25,28 @@ const (
 type VideoStatus int32
 
 const (
-	VideoStatus_VIDEO_STATUS_UNSPECIFIED VideoStatus = 0
-	VideoStatus_VIDEO_STATUS_ACTIVE      VideoStatus = 1
-	VideoStatus_VIDEO_STATUS_BROKEN      VideoStatus = 2
+	VideoStatus_VIDEO_STATUS_UNSPECIFIED            VideoStatus = 0
+	VideoStatus_VIDEO_STATUS_PLAYBACK_URL_GENERATED VideoStatus = 1
+	VideoStatus_VIDEO_STATUS_ACTIVE                 VideoStatus = 2
+	VideoStatus_VIDEO_STATUS_ARCHIVED               VideoStatus = 3
+	VideoStatus_VIDEO_STATUS_BROKEN                 VideoStatus = 4
 )
 
 // Enum value maps for VideoStatus.
 var (
 	VideoStatus_name = map[int32]string{
 		0: "VIDEO_STATUS_UNSPECIFIED",
-		1: "VIDEO_STATUS_ACTIVE",
-		2: "VIDEO_STATUS_BROKEN",
+		1: "VIDEO_STATUS_PLAYBACK_URL_GENERATED",
+		2: "VIDEO_STATUS_ACTIVE",
+		3: "VIDEO_STATUS_ARCHIVED",
+		4: "VIDEO_STATUS_BROKEN",
 	}
 	VideoStatus_value = map[string]int32{
-		"VIDEO_STATUS_UNSPECIFIED": 0,
-		"VIDEO_STATUS_ACTIVE":      1,
-		"VIDEO_STATUS_BROKEN":      2,
+		"VIDEO_STATUS_UNSPECIFIED":            0,
+		"VIDEO_STATUS_PLAYBACK_URL_GENERATED": 1,
+		"VIDEO_STATUS_ACTIVE":                 2,
+		"VIDEO_STATUS_ARCHIVED":               3,
+		"VIDEO_STATUS_BROKEN":                 4,
 	}
 )
 
@@ -78,6 +84,7 @@ const (
 	UploadStatus_UPLOAD_STATUS_PREPARING   UploadStatus = 1
 	UploadStatus_UPLOAD_STATUS_READY       UploadStatus = 2
 	UploadStatus_UPLOAD_STATUS_ERRORED     UploadStatus = 3
+	UploadStatus_UPLOAD_STATUS_DELETED     UploadStatus = 4
 )
 
 // Enum value maps for UploadStatus.
@@ -87,12 +94,14 @@ var (
 		1: "UPLOAD_STATUS_PREPARING",
 		2: "UPLOAD_STATUS_READY",
 		3: "UPLOAD_STATUS_ERRORED",
+		4: "UPLOAD_STATUS_DELETED",
 	}
 	UploadStatus_value = map[string]int32{
 		"UPLOAD_STATUS_UNSPECIFIED": 0,
 		"UPLOAD_STATUS_PREPARING":   1,
 		"UPLOAD_STATUS_READY":       2,
 		"UPLOAD_STATUS_ERRORED":     3,
+		"UPLOAD_STATUS_DELETED":     4,
 	}
 )
 
@@ -124,21 +133,21 @@ func (UploadStatus) EnumDescriptor() ([]byte, []int) {
 }
 
 type Video struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	Uuid             []byte                 `protobuf:"bytes,1,opt,name=uuid,proto3" json:"uuid,omitempty"`
-	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt        *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	DeletedAt        *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`
-	MediaServiceUuid []byte                 `protobuf:"bytes,5,opt,name=media_service_uuid,json=mediaServiceUuid,proto3" json:"media_service_uuid,omitempty"`
-	PublicPlaybackId *string                `protobuf:"bytes,6,opt,name=public_playback_id,json=publicPlaybackId,proto3,oneof" json:"public_playback_id,omitempty"`
-	SignedPlaybackId string                 `protobuf:"bytes,7,opt,name=signed_playback_id,json=signedPlaybackId,proto3" json:"signed_playback_id,omitempty"`
-	DurationSeconds  float32                `protobuf:"fixed32,8,opt,name=duration_seconds,json=durationSeconds,proto3" json:"duration_seconds,omitempty"`
-	AspectRatio      *string                `protobuf:"bytes,9,opt,name=aspect_ratio,json=aspectRatio,proto3,oneof" json:"aspect_ratio,omitempty"`
-	ThumbnailUrl     *string                `protobuf:"bytes,10,opt,name=thumbnail_url,json=thumbnailUrl,proto3,oneof" json:"thumbnail_url,omitempty"`
-	Status           VideoStatus            `protobuf:"varint,11,opt,name=status,proto3,enum=product_service.video.v1.VideoStatus" json:"status,omitempty"`
-	UploadStatus     UploadStatus           `protobuf:"varint,12,opt,name=upload_status,json=uploadStatus,proto3,enum=product_service.video.v1.UploadStatus" json:"upload_status,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state                   protoimpl.MessageState `protogen:"open.v1"`
+	Uuid                    []byte                 `protobuf:"bytes,1,opt,name=uuid,proto3" json:"uuid,omitempty"`
+	CreatedAt               *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt               *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	DeletedAt               *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`
+	MediaServiceUuid        []byte                 `protobuf:"bytes,5,opt,name=media_service_uuid,json=mediaServiceUuid,proto3" json:"media_service_uuid,omitempty"`
+	PrimaryPublicPlaybackId *string                `protobuf:"bytes,6,opt,name=primary_public_playback_id,json=primaryPublicPlaybackId,proto3,oneof" json:"primary_public_playback_id,omitempty"`
+	PrimarySignedPlaybackId *string                `protobuf:"bytes,7,opt,name=primary_signed_playback_id,json=primarySignedPlaybackId,proto3,oneof" json:"primary_signed_playback_id,omitempty"`
+	DurationSeconds         float64                `protobuf:"fixed64,8,opt,name=duration_seconds,json=durationSeconds,proto3" json:"duration_seconds,omitempty"`
+	AspectRatio             *string                `protobuf:"bytes,9,opt,name=aspect_ratio,json=aspectRatio,proto3,oneof" json:"aspect_ratio,omitempty"`
+	ResolutionTier          *string                `protobuf:"bytes,10,opt,name=resolution_tier,json=resolutionTier,proto3,oneof" json:"resolution_tier,omitempty"`
+	Status                  VideoStatus            `protobuf:"varint,11,opt,name=status,proto3,enum=product_service.video.v1.VideoStatus" json:"status,omitempty"`
+	UploadStatus            UploadStatus           `protobuf:"varint,12,opt,name=upload_status,json=uploadStatus,proto3,enum=product_service.video.v1.UploadStatus" json:"upload_status,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *Video) Reset() {
@@ -206,21 +215,21 @@ func (x *Video) GetMediaServiceUuid() []byte {
 	return nil
 }
 
-func (x *Video) GetPublicPlaybackId() string {
-	if x != nil && x.PublicPlaybackId != nil {
-		return *x.PublicPlaybackId
+func (x *Video) GetPrimaryPublicPlaybackId() string {
+	if x != nil && x.PrimaryPublicPlaybackId != nil {
+		return *x.PrimaryPublicPlaybackId
 	}
 	return ""
 }
 
-func (x *Video) GetSignedPlaybackId() string {
-	if x != nil {
-		return x.SignedPlaybackId
+func (x *Video) GetPrimarySignedPlaybackId() string {
+	if x != nil && x.PrimarySignedPlaybackId != nil {
+		return *x.PrimarySignedPlaybackId
 	}
 	return ""
 }
 
-func (x *Video) GetDurationSeconds() float32 {
+func (x *Video) GetDurationSeconds() float64 {
 	if x != nil {
 		return x.DurationSeconds
 	}
@@ -234,9 +243,9 @@ func (x *Video) GetAspectRatio() string {
 	return ""
 }
 
-func (x *Video) GetThumbnailUrl() string {
-	if x != nil && x.ThumbnailUrl != nil {
-		return *x.ThumbnailUrl
+func (x *Video) GetResolutionTier() string {
+	if x != nil && x.ResolutionTier != nil {
+		return *x.ResolutionTier
 	}
 	return ""
 }
@@ -599,11 +608,147 @@ func (x *PingResponse) GetTimestamp() int64 {
 	return 0
 }
 
+type UpdateRequest struct {
+	state                   protoimpl.MessageState `protogen:"open.v1"`
+	MediaServiceUuid        []byte                 `protobuf:"bytes,1,opt,name=media_service_uuid,json=mediaServiceUuid,proto3" json:"media_service_uuid,omitempty"`
+	PrimaryPublicPlaybackId *string                `protobuf:"bytes,2,opt,name=primary_public_playback_id,json=primaryPublicPlaybackId,proto3,oneof" json:"primary_public_playback_id,omitempty"`
+	PrimarySignedPlaybackId *string                `protobuf:"bytes,3,opt,name=primary_signed_playback_id,json=primarySignedPlaybackId,proto3,oneof" json:"primary_signed_playback_id,omitempty"`
+	DurationSeconds         *float64               `protobuf:"fixed64,4,opt,name=duration_seconds,json=durationSeconds,proto3,oneof" json:"duration_seconds,omitempty"`
+	AspectRatio             *string                `protobuf:"bytes,5,opt,name=aspect_ratio,json=aspectRatio,proto3,oneof" json:"aspect_ratio,omitempty"`
+	ResolutionTier          *string                `protobuf:"bytes,6,opt,name=resolution_tier,json=resolutionTier,proto3,oneof" json:"resolution_tier,omitempty"`
+	Status                  *VideoStatus           `protobuf:"varint,7,opt,name=status,proto3,enum=product_service.video.v1.VideoStatus,oneof" json:"status,omitempty"`
+	UploadStatus            *UploadStatus          `protobuf:"varint,8,opt,name=upload_status,json=uploadStatus,proto3,enum=product_service.video.v1.UploadStatus,oneof" json:"upload_status,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
+}
+
+func (x *UpdateRequest) Reset() {
+	*x = UpdateRequest{}
+	mi := &file_product_service_video_v1_video_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateRequest) ProtoMessage() {}
+
+func (x *UpdateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_product_service_video_v1_video_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateRequest.ProtoReflect.Descriptor instead.
+func (*UpdateRequest) Descriptor() ([]byte, []int) {
+	return file_product_service_video_v1_video_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *UpdateRequest) GetMediaServiceUuid() []byte {
+	if x != nil {
+		return x.MediaServiceUuid
+	}
+	return nil
+}
+
+func (x *UpdateRequest) GetPrimaryPublicPlaybackId() string {
+	if x != nil && x.PrimaryPublicPlaybackId != nil {
+		return *x.PrimaryPublicPlaybackId
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetPrimarySignedPlaybackId() string {
+	if x != nil && x.PrimarySignedPlaybackId != nil {
+		return *x.PrimarySignedPlaybackId
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetDurationSeconds() float64 {
+	if x != nil && x.DurationSeconds != nil {
+		return *x.DurationSeconds
+	}
+	return 0
+}
+
+func (x *UpdateRequest) GetAspectRatio() string {
+	if x != nil && x.AspectRatio != nil {
+		return *x.AspectRatio
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetResolutionTier() string {
+	if x != nil && x.ResolutionTier != nil {
+		return *x.ResolutionTier
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetStatus() VideoStatus {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return VideoStatus_VIDEO_STATUS_UNSPECIFIED
+}
+
+func (x *UpdateRequest) GetUploadStatus() UploadStatus {
+	if x != nil && x.UploadStatus != nil {
+		return *x.UploadStatus
+	}
+	return UploadStatus_UPLOAD_STATUS_UNSPECIFIED
+}
+
+type UpdateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateResponse) Reset() {
+	*x = UpdateResponse{}
+	mi := &file_product_service_video_v1_video_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateResponse) ProtoMessage() {}
+
+func (x *UpdateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_product_service_video_v1_video_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateResponse.ProtoReflect.Descriptor instead.
+func (*UpdateResponse) Descriptor() ([]byte, []int) {
+	return file_product_service_video_v1_video_proto_rawDescGZIP(), []int{10}
+}
+
 var File_product_service_video_v1_video_proto protoreflect.FileDescriptor
 
 const file_product_service_video_v1_video_proto_rawDesc = "" +
 	"\n" +
-	"$product_service/video/v1/video.proto\x12\x18product_service.video.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb2\x05\n" +
+	"$product_service/video/v1/video.proto\x12\x18product_service.video.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82\x06\n" +
 	"\x05Video\x12\x12\n" +
 	"\x04uuid\x18\x01 \x01(\fR\x04uuid\x129\n" +
 	"\n" +
@@ -612,19 +757,20 @@ const file_product_service_video_v1_video_proto_rawDesc = "" +
 	"updated_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12>\n" +
 	"\n" +
 	"deleted_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\tdeletedAt\x88\x01\x01\x12,\n" +
-	"\x12media_service_uuid\x18\x05 \x01(\fR\x10mediaServiceUuid\x121\n" +
-	"\x12public_playback_id\x18\x06 \x01(\tH\x01R\x10publicPlaybackId\x88\x01\x01\x12,\n" +
-	"\x12signed_playback_id\x18\a \x01(\tR\x10signedPlaybackId\x12)\n" +
-	"\x10duration_seconds\x18\b \x01(\x02R\x0fdurationSeconds\x12&\n" +
-	"\faspect_ratio\x18\t \x01(\tH\x02R\vaspectRatio\x88\x01\x01\x12(\n" +
-	"\rthumbnail_url\x18\n" +
-	" \x01(\tH\x03R\fthumbnailUrl\x88\x01\x01\x12=\n" +
+	"\x12media_service_uuid\x18\x05 \x01(\fR\x10mediaServiceUuid\x12@\n" +
+	"\x1aprimary_public_playback_id\x18\x06 \x01(\tH\x01R\x17primaryPublicPlaybackId\x88\x01\x01\x12@\n" +
+	"\x1aprimary_signed_playback_id\x18\a \x01(\tH\x02R\x17primarySignedPlaybackId\x88\x01\x01\x12)\n" +
+	"\x10duration_seconds\x18\b \x01(\x01R\x0fdurationSeconds\x12&\n" +
+	"\faspect_ratio\x18\t \x01(\tH\x03R\vaspectRatio\x88\x01\x01\x12,\n" +
+	"\x0fresolution_tier\x18\n" +
+	" \x01(\tH\x04R\x0eresolutionTier\x88\x01\x01\x12=\n" +
 	"\x06status\x18\v \x01(\x0e2%.product_service.video.v1.VideoStatusR\x06status\x12K\n" +
 	"\rupload_status\x18\f \x01(\x0e2&.product_service.video.v1.UploadStatusR\fuploadStatusB\r\n" +
-	"\v_deleted_atB\x15\n" +
-	"\x13_public_playback_idB\x0f\n" +
-	"\r_aspect_ratioB\x10\n" +
-	"\x0e_thumbnail_url\"\x98\x01\n" +
+	"\v_deleted_atB\x1d\n" +
+	"\x1b_primary_public_playback_idB\x1d\n" +
+	"\x1b_primary_signed_playback_idB\x0f\n" +
+	"\r_aspect_ratioB\x12\n" +
+	"\x10_resolution_tier\"\x98\x01\n" +
 	"\x12BrokenVideoRequest\x12,\n" +
 	"\x12media_service_uuid\x18\x01 \x01(\fR\x10mediaServiceUuid\x12\x16\n" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason\x12\x1d\n" +
@@ -641,21 +787,42 @@ const file_product_service_video_v1_video_proto_rawDesc = "" +
 	"\x13ForceDeleteResponse\"\r\n" +
 	"\vPingRequest\",\n" +
 	"\fPingResponse\x12\x1c\n" +
-	"\ttimestamp\x18\x01 \x01(\x03R\ttimestamp*]\n" +
+	"\ttimestamp\x18\x01 \x01(\x03R\ttimestamp\"\xf2\x04\n" +
+	"\rUpdateRequest\x12,\n" +
+	"\x12media_service_uuid\x18\x01 \x01(\fR\x10mediaServiceUuid\x12@\n" +
+	"\x1aprimary_public_playback_id\x18\x02 \x01(\tH\x00R\x17primaryPublicPlaybackId\x88\x01\x01\x12@\n" +
+	"\x1aprimary_signed_playback_id\x18\x03 \x01(\tH\x01R\x17primarySignedPlaybackId\x88\x01\x01\x12.\n" +
+	"\x10duration_seconds\x18\x04 \x01(\x01H\x02R\x0fdurationSeconds\x88\x01\x01\x12&\n" +
+	"\faspect_ratio\x18\x05 \x01(\tH\x03R\vaspectRatio\x88\x01\x01\x12,\n" +
+	"\x0fresolution_tier\x18\x06 \x01(\tH\x04R\x0eresolutionTier\x88\x01\x01\x12B\n" +
+	"\x06status\x18\a \x01(\x0e2%.product_service.video.v1.VideoStatusH\x05R\x06status\x88\x01\x01\x12P\n" +
+	"\rupload_status\x18\b \x01(\x0e2&.product_service.video.v1.UploadStatusH\x06R\fuploadStatus\x88\x01\x01B\x1d\n" +
+	"\x1b_primary_public_playback_idB\x1d\n" +
+	"\x1b_primary_signed_playback_idB\x13\n" +
+	"\x11_duration_secondsB\x0f\n" +
+	"\r_aspect_ratioB\x12\n" +
+	"\x10_resolution_tierB\t\n" +
+	"\a_statusB\x10\n" +
+	"\x0e_upload_status\"\x10\n" +
+	"\x0eUpdateResponse*\xa1\x01\n" +
 	"\vVideoStatus\x12\x1c\n" +
-	"\x18VIDEO_STATUS_UNSPECIFIED\x10\x00\x12\x17\n" +
-	"\x13VIDEO_STATUS_ACTIVE\x10\x01\x12\x17\n" +
-	"\x13VIDEO_STATUS_BROKEN\x10\x02*~\n" +
+	"\x18VIDEO_STATUS_UNSPECIFIED\x10\x00\x12'\n" +
+	"#VIDEO_STATUS_PLAYBACK_URL_GENERATED\x10\x01\x12\x17\n" +
+	"\x13VIDEO_STATUS_ACTIVE\x10\x02\x12\x19\n" +
+	"\x15VIDEO_STATUS_ARCHIVED\x10\x03\x12\x17\n" +
+	"\x13VIDEO_STATUS_BROKEN\x10\x04*\x99\x01\n" +
 	"\fUploadStatus\x12\x1d\n" +
 	"\x19UPLOAD_STATUS_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17UPLOAD_STATUS_PREPARING\x10\x01\x12\x17\n" +
 	"\x13UPLOAD_STATUS_READY\x10\x02\x12\x19\n" +
-	"\x15UPLOAD_STATUS_ERRORED\x10\x032\x9a\x03\n" +
+	"\x15UPLOAD_STATUS_ERRORED\x10\x03\x12\x19\n" +
+	"\x15UPLOAD_STATUS_DELETED\x10\x042\xf7\x03\n" +
 	"\fVideoService\x12U\n" +
 	"\x04Ping\x12%.product_service.video.v1.PingRequest\x1a&.product_service.video.v1.PingResponse\x12j\n" +
 	"\vBrokenVideo\x12,.product_service.video.v1.BrokenVideoRequest\x1a-.product_service.video.v1.BrokenVideoResponse\x12[\n" +
 	"\x06Delete\x12'.product_service.video.v1.DeleteRequest\x1a(.product_service.video.v1.DeleteResponse\x12j\n" +
-	"\vForceDelete\x12,.product_service.video.v1.ForceDeleteRequest\x1a-.product_service.video.v1.ForceDeleteResponseB\xf9\x01\n" +
+	"\vForceDelete\x12,.product_service.video.v1.ForceDeleteRequest\x1a-.product_service.video.v1.ForceDeleteResponse\x12[\n" +
+	"\x06Update\x12'.product_service.video.v1.UpdateRequest\x1a(.product_service.video.v1.UpdateResponseB\xf9\x01\n" +
 	"\x1ccom.product_service.video.v1B\n" +
 	"VideoProtoP\x01ZOgithub.com/mikhail5545/media-service-client/pb/product_service/video/v1;videov1\xa2\x02\x03PVX\xaa\x02\x17ProductService.Video.V1\xca\x02\x17ProductService\\Video\\V1\xe2\x02#ProductService\\Video\\V1\\GPBMetadata\xea\x02\x19ProductService::Video::V1b\x06proto3"
 
@@ -672,7 +839,7 @@ func file_product_service_video_v1_video_proto_rawDescGZIP() []byte {
 }
 
 var file_product_service_video_v1_video_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_product_service_video_v1_video_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_product_service_video_v1_video_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_product_service_video_v1_video_proto_goTypes = []any{
 	(VideoStatus)(0),              // 0: product_service.video.v1.VideoStatus
 	(UploadStatus)(0),             // 1: product_service.video.v1.UploadStatus
@@ -685,27 +852,33 @@ var file_product_service_video_v1_video_proto_goTypes = []any{
 	(*ForceDeleteResponse)(nil),   // 8: product_service.video.v1.ForceDeleteResponse
 	(*PingRequest)(nil),           // 9: product_service.video.v1.PingRequest
 	(*PingResponse)(nil),          // 10: product_service.video.v1.PingResponse
-	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
+	(*UpdateRequest)(nil),         // 11: product_service.video.v1.UpdateRequest
+	(*UpdateResponse)(nil),        // 12: product_service.video.v1.UpdateResponse
+	(*timestamppb.Timestamp)(nil), // 13: google.protobuf.Timestamp
 }
 var file_product_service_video_v1_video_proto_depIdxs = []int32{
-	11, // 0: product_service.video.v1.Video.created_at:type_name -> google.protobuf.Timestamp
-	11, // 1: product_service.video.v1.Video.updated_at:type_name -> google.protobuf.Timestamp
-	11, // 2: product_service.video.v1.Video.deleted_at:type_name -> google.protobuf.Timestamp
+	13, // 0: product_service.video.v1.Video.created_at:type_name -> google.protobuf.Timestamp
+	13, // 1: product_service.video.v1.Video.updated_at:type_name -> google.protobuf.Timestamp
+	13, // 2: product_service.video.v1.Video.deleted_at:type_name -> google.protobuf.Timestamp
 	0,  // 3: product_service.video.v1.Video.status:type_name -> product_service.video.v1.VideoStatus
 	1,  // 4: product_service.video.v1.Video.upload_status:type_name -> product_service.video.v1.UploadStatus
-	9,  // 5: product_service.video.v1.VideoService.Ping:input_type -> product_service.video.v1.PingRequest
-	3,  // 6: product_service.video.v1.VideoService.BrokenVideo:input_type -> product_service.video.v1.BrokenVideoRequest
-	5,  // 7: product_service.video.v1.VideoService.Delete:input_type -> product_service.video.v1.DeleteRequest
-	7,  // 8: product_service.video.v1.VideoService.ForceDelete:input_type -> product_service.video.v1.ForceDeleteRequest
-	10, // 9: product_service.video.v1.VideoService.Ping:output_type -> product_service.video.v1.PingResponse
-	4,  // 10: product_service.video.v1.VideoService.BrokenVideo:output_type -> product_service.video.v1.BrokenVideoResponse
-	6,  // 11: product_service.video.v1.VideoService.Delete:output_type -> product_service.video.v1.DeleteResponse
-	8,  // 12: product_service.video.v1.VideoService.ForceDelete:output_type -> product_service.video.v1.ForceDeleteResponse
-	9,  // [9:13] is the sub-list for method output_type
-	5,  // [5:9] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	0,  // 5: product_service.video.v1.UpdateRequest.status:type_name -> product_service.video.v1.VideoStatus
+	1,  // 6: product_service.video.v1.UpdateRequest.upload_status:type_name -> product_service.video.v1.UploadStatus
+	9,  // 7: product_service.video.v1.VideoService.Ping:input_type -> product_service.video.v1.PingRequest
+	3,  // 8: product_service.video.v1.VideoService.BrokenVideo:input_type -> product_service.video.v1.BrokenVideoRequest
+	5,  // 9: product_service.video.v1.VideoService.Delete:input_type -> product_service.video.v1.DeleteRequest
+	7,  // 10: product_service.video.v1.VideoService.ForceDelete:input_type -> product_service.video.v1.ForceDeleteRequest
+	11, // 11: product_service.video.v1.VideoService.Update:input_type -> product_service.video.v1.UpdateRequest
+	10, // 12: product_service.video.v1.VideoService.Ping:output_type -> product_service.video.v1.PingResponse
+	4,  // 13: product_service.video.v1.VideoService.BrokenVideo:output_type -> product_service.video.v1.BrokenVideoResponse
+	6,  // 14: product_service.video.v1.VideoService.Delete:output_type -> product_service.video.v1.DeleteResponse
+	8,  // 15: product_service.video.v1.VideoService.ForceDelete:output_type -> product_service.video.v1.ForceDeleteResponse
+	12, // 16: product_service.video.v1.VideoService.Update:output_type -> product_service.video.v1.UpdateResponse
+	12, // [12:17] is the sub-list for method output_type
+	7,  // [7:12] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_product_service_video_v1_video_proto_init() }
@@ -714,13 +887,14 @@ func file_product_service_video_v1_video_proto_init() {
 		return
 	}
 	file_product_service_video_v1_video_proto_msgTypes[0].OneofWrappers = []any{}
+	file_product_service_video_v1_video_proto_msgTypes[9].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_product_service_video_v1_video_proto_rawDesc), len(file_product_service_video_v1_video_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   9,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
